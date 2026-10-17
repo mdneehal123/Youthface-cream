@@ -1,0 +1,41 @@
+name: Copy photos from WordPress into this repo
+on:
+  workflow_dispatch:
+  push:
+    paths: [".github/images.txt", ".github/workflows/fetch-photos.yml"]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download photos
+        run: |
+          set +e
+          IP=$(dig +short old.youthfacebeauty.com A | tail -1)
+          echo "old.youthfacebeauty.com -> ${IP:-no A record}"
+          ok=0; fail=0
+          while read -r p; do
+            [ -z "$p" ] && continue
+            out="wp-content/uploads/$p"; mkdir -p "$(dirname "$out")"
+            got=""
+            for url in "https://old.youthfacebeauty.com/wp-content/uploads/$p" "http://old.youthfacebeauty.com/wp-content/uploads/$p"; do
+              curl -fsSLk --max-time 60 -A "Mozilla/5.0" -o "$out" "$url" && file --mime-type -b "$out" | grep -q '^image/' && got="$url" && break
+            done
+            if [ -z "$got" ] && [ -n "$IP" ]; then
+              curl -fsSLk --max-time 60 -A "Mozilla/5.0" --resolve "youthfacebeauty.com:443:$IP" -o "$out" "https://youthfacebeauty.com/wp-content/uploads/$p" \
+                && file --mime-type -b "$out" | grep -q '^image/' && got="origin-ip"
+            fi
+            if [ -n "$got" ]; then echo "OK   $p"; ok=$((ok+1)); else echo "FAIL $p"; rm -f "$out"; fail=$((fail+1)); fi
+          done < .github/images.txt
+          echo "Downloaded $ok, failed $fail"
+          echo "OK=$ok" >> $GITHUB_ENV
+      - name: Commit photos
+        if: env.OK != '0'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add wp-content
+          git diff --cached --quiet || git commit -m "Add product and blog photos from WordPress"
+          git push
