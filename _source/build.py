@@ -228,7 +228,7 @@ APPCFG = {k: _cfg(k) for k in ("ga4Id", "metaPixelId", "grievanceOfficer", "manu
 STYLE = re.search(r"<style>.*?</style>", APP, re.S).group(0)
 APP_BODY = APP[APP.index('<div class="ticker"'):]
 APP_BODY = APP_BODY.replace('const IMG = "https://youthfacebeauty.com/wp-content/uploads/2026/09/";', 'const IMG = "/wp-content/uploads/2026/09/";')
-FONTS_URL = "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap"
+FONTS_URL = "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=optional"
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
          f'<link rel="preload" as="style" href="{FONTS_URL}" onload="this.onload=null;this.rel=\'stylesheet\'"><noscript><link rel="stylesheet" href="{FONTS_URL}"></noscript>')
 

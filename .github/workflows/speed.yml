@@ -27,6 +27,7 @@ jobs:
                 const s=k=>Math.round((c[k]?.score||0)*100);
                 console.log(`\n== ${process.argv[1]} [${process.argv[2]}] perf ${s("performance")} | a11y ${s("accessibility")} | best ${s("best-practices")} | seo ${s("seo")}`);
                 console.log(`   FCP ${a["first-contentful-paint"].displayValue} | LCP ${a["largest-contentful-paint"].displayValue} | TBT ${a["total-blocking-time"].displayValue} | CLS ${a["cumulative-layout-shift"].displayValue} | weight ${Math.round(a["total-byte-weight"].numericValue/1024)} KB`);
+                const ls=(a["layout-shifts"]?.details?.items||a["layout-shift-elements"]?.details?.items||[]).slice(0,3).map(i=>((i.node?.snippet)||"")+" "+(i.score!=null?i.score.toFixed(3):"")).join(" | "); if(ls.trim()) console.log("   Shifts: "+ls.slice(0,300));
                 const lcp=a["largest-contentful-paint-element"]?.details?.items?.[0]?.items?.[0]?.node?.snippet; if(lcp) console.log("   LCP element: "+lcp.slice(0,140));
                 Object.values(a).filter(x=>x.score!==null && x.score<0.9 && !["informative","notApplicable","manual"].includes(x.scoreDisplayMode))
                   .slice(0,14).forEach(x=>{ const items=(x.details?.items||[]).slice(0,3).map(i=>(i.url||i.node?.snippet||i.label||"").toString().slice(0,90)).filter(Boolean).join(" ; ");
