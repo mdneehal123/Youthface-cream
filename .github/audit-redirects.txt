@@ -1,0 +1,10 @@
+/cart/ /checkout/
+/my-account/ /track-order/
+/feed/ /skincare-guides/
+/sitemap_index.xml /sitemap.xml
+/category/skincare/ /skincare-guides/
+/author/admin/ /about-the-author/
+/product-category/face/ /shop/
+/?add-to-cart=22 /checkout/
+/favicon.ico /favicon-48.png
+/about-us /about-us/

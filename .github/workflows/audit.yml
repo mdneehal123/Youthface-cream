@@ -1,0 +1,59 @@
+name: Audit live site
+on:
+  workflow_dispatch:
+  push:
+    paths: [".github/audit-urls.txt", ".github/workflows/audit.yml"]
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit
+        run: |
+          set +e
+          R=.github/audit-report.txt; : > $R
+          S=https://youthfacebeauty.com
+          { echo "DNS @    : $(dig +short youthfacebeauty.com A | tr '\n' ' ')"
+            echo "DNS www  : $(dig +short www.youthfacebeauty.com | tr '\n' ' ')"
+            echo "DNS TXT  : $(dig +short youthfacebeauty.com TXT | tr '\n' ' ')"
+            echo "DNS MX   : $(dig +short youthfacebeauty.com MX | tr '\n' ' ')"
+            echo "http->https: $(curl -sI http://youthfacebeauty.com/ | grep -i -E '^(HTTP|location)' | tr -d '\r' | tr '\n' ' ')"
+            echo "www      : $(curl -sI https://www.youthfacebeauty.com/ | grep -i -E '^(HTTP|location)' | tr -d '\r' | tr '\n' ' ')"
+            echo "home server: $(curl -sI $S/ | grep -i -E '^(server|x-vercel-id|x-robots-tag)' | tr -d '\r' | tr '\n' ' ')"
+            echo "== pages (non-200 only) =="; } >> $R
+          n=0; bad=0
+          while read -r u; do [ -z "$u" ] && continue; n=$((n+1))
+            c=$(curl -s -o /tmp/p -w '%{http_code}' "$S$u")
+            if [ "$c" != "200" ]; then echo "$c $u" >> $R; bad=$((bad+1)); continue; fi
+            case "$u" in */) grep -q 'WordPress' /tmp/p && echo "OLD-WORDPRESS $u" >> $R;; esac
+          done < .github/audit-urls.txt
+          echo "pages checked: $n, problems: $bad" >> $R
+          echo "== redirects ==" >> $R
+          while read -r from to; do [ -z "$from" ] && continue
+            loc=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' "$S$from"); echo "$from -> $loc (want $to)" >> $R
+          done < .github/audit-redirects.txt
+          echo "== photos ==" >> $R
+          ok=0; fail=0
+          while read -r p; do [ -z "$p" ] && continue
+            c=$(curl -s -o /tmp/i -w '%{http_code} %{content_type}' "$S/wp-content/uploads/$p")
+            case "$c" in "200 image/"*) ok=$((ok+1));; *) echo "PHOTO $c $p" >> $R; fail=$((fail+1));; esac
+          done < .github/images.txt
+          echo "photos ok: $ok, failed: $fail" >> $R
+          echo "== image refs in pages that are not in repo ==" >> $R
+          curl -s $S/ $S/shop/ $S/product/youth-face-beauty-cream-25g/ $S/skincare-guides/ $S/best-cream-for-dark-spots-in-india-2026-buyers-guide/ \
+            | grep -oE '/wp-content/uploads/[^"'"'"' )]+' | sort -u | while read -r i; do [ -f ".${i}" ] || echo "MISSING $i" >> $R; done
+          echo "== SEO spot check ==" >> $R
+          for u in / /product/youth-face-beauty-cream-25g/ /youth-face-cream-kochi/ /kojic-acid-dark-spots-guide/; do
+            curl -s "$S$u" > /tmp/p
+            echo "$u | $(grep -o '<title>[^<]*' /tmp/p | head -1 | cut -c8-80) | canonical $(grep -o 'rel="canonical" href="[^"]*' /tmp/p | cut -d'"' -f4) | robots $(grep -o 'name="robots" content="[^"]*' /tmp/p | cut -d'"' -f4) | ld $(grep -c 'application/ld+json' /tmp/p)" >> $R
+          done
+          echo "robots.txt:" >> $R; curl -s $S/robots.txt >> $R
+          echo "sitemap urls: $(curl -s $S/sitemap.xml | grep -c '<loc>')" >> $R
+          cat $R
+      - name: Save report
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/audit-report.txt; git commit -m "Live site audit report [skip ci]" && git push
