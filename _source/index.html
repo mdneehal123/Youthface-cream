@@ -16,6 +16,8 @@
 }
 
 *{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;margin:0;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bar)}
 a{color:inherit}
@@ -612,6 +614,7 @@ const mrpTotal = () => cart.reduce((a,l)=>a+byId(l.id).mrp*l.qty,0);
 function openCart(){ $("#scrim").hidden=false; $("#drawer").hidden=false }
 function closeCart(){ $("#scrim").hidden=true; $("#drawer").hidden=true }
 $("#openCart").onclick=openCart; $("#closeCart").onclick=closeCart; $("#scrim").onclick=closeCart;
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && !$("#drawer").hidden) closeCart() });
 function lineHTML(l, small){
   const p=byId(l.id);
   return `<div class="line">${img(p)}<div><div class="t">${esc(p.name)}</div><div class="m">${esc(p.size)}</div>
