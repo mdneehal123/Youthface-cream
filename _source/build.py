@@ -840,8 +840,14 @@ def main():
         "$schema": "https://openapi.vercel.sh/vercel.json",
         "trailingSlash": True,
         "redirects": redirects,
-        "rewrites": [{"source": "/wp-content/:path*", "destination": OLD_HOST + "/wp-content/:path*"}],
+        # Photos: while testing on vercel.app they load from the live WordPress site;
+        # after the domain moves they load from WordPress at old.youthfacebeauty.com (or from /wp-content in this repo if added).
+        "rewrites": [{"source": "/wp-content/:path*", "has": [{"type": "host", "value": "(?<sub>.*)\\.vercel\\.app"}],
+                      "destination": "https://youthfacebeauty.com/wp-content/:path*"},
+                     {"source": "/wp-content/:path*", "destination": OLD_HOST + "/wp-content/:path*"}],
         "headers": [
+            {"source": "/(.*)", "has": [{"type": "host", "value": "(?<sub>.*)\\.vercel\\.app"}],
+             "headers": [{"key": "X-Robots-Tag", "value": "noindex, nofollow"}]},
             {"source": "/(.*)", "headers": [{"key": "X-Content-Type-Options", "value": "nosniff"},
                                             {"key": "Referrer-Policy", "value": "strict-origin-when-cross-origin"}]},
             {"source": "/wp-content/(.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=31536000, immutable"}]},
