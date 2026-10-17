@@ -98,3 +98,7 @@ Payment: Cash on Delivery, UPI, cards and net banking. Free shipping across Indi
 - [Refund & Returns Policy](https://www.youthfacebeauty.com/refund-returns-policy/)
 - [Privacy Policy](https://www.youthfacebeauty.com/privacy-policy/)
 - [Terms and Conditions](https://www.youthfacebeauty.com/terms-conditions/)
+
+## Full text
+
+- [Full text of all guides and product pages](https://www.youthfacebeauty.com/llms-full.txt)

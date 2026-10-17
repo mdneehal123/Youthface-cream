@@ -1,0 +1,20 @@
+name: Notify search engines (IndexNow)
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  ping:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Vercel to deploy
+        run: sleep 120
+      - name: Send all sitemap URLs to IndexNow (Bing, Yandex and others)
+        run: |
+          KEY=7c1f4e9a2b8d4f6e9a3c5b7d1e2f4a6c
+          URLS=$(curl -s https://www.youthfacebeauty.com/sitemap.xml | grep -o '<loc>[^<]*' | sed 's/<loc>//' | jq -R . | jq -s .)
+          echo "Submitting $(echo "$URLS" | jq length) URLs"
+          curl -s -o /dev/null -w "IndexNow HTTP %{http_code}\n" -X POST https://api.indexnow.org/indexnow \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{\"host\":\"www.youthfacebeauty.com\",\"key\":\"$KEY\",\"keyLocation\":\"https://www.youthfacebeauty.com/$KEY.txt\",\"urlList\":$URLS}"

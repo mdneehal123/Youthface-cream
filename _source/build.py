@@ -17,6 +17,7 @@ CONTENT = os.path.join(ROOT, "content")
 DIST = os.path.join(ROOT, "dist")
 SITE = "https://www.youthfacebeauty.com"
 GSV = "CUCKzAwX0QpgN9ntR1HKxMjwp7u0wgm0n50vmqDsHRk"
+INDEXNOW_KEY = "7c1f4e9a2b8d4f6e9a3c5b7d1e2f4a6c"
 UP = "/wp-content/uploads/2026/09/"
 OG_DEFAULT = SITE + UP + "Youth-Face-Beauty-Cream-25g.png"
 ICON = "/favicon.svg"
@@ -824,8 +825,43 @@ def main():
     ] + [f"- [Youth Face Cream in {c['name']}{' (' + c['aka'] + ')' if c['aka'] else ''}]({SITE}/youth-face-cream-{c['slug']}/)" for c in kerala.CITIES] + [
         "", "## Policies", "",
     ] + [f"- [{strip_site(items[p]['title'])}]({SITE}{p})" for p in POLICY_PAGES]
+    llms += ["", "## Full text", "", f"- [Full text of all guides and product pages]({SITE}/llms-full.txt)"]
     open(os.path.join(DIST, "llms.txt"), "w").write("\n".join(llms) + "\n")
-    open(os.path.join(DIST, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\nDisallow: /checkout/\nDisallow: /order-success/\nDisallow: /wishlist/\n\nSitemap: {SITE}/sitemap.xml\n")
+    BLOCK = "Disallow: /checkout/\nDisallow: /order-success/\nDisallow: /wishlist/\n"
+    AI_BOTS = ["Googlebot", "Bingbot", "Google-Extended", "GPTBot", "OAI-SearchBot", "ChatGPT-User", "PerplexityBot", "Perplexity-User",
+               "ClaudeBot", "Claude-SearchBot", "Claude-User", "Applebot", "Applebot-Extended", "DuckDuckBot", "YandexBot", "CCBot", "Amazonbot", "Meta-ExternalAgent"]
+    robots = "# Search engines and AI assistants are welcome to read and cite this site.\n"
+    robots += "".join(f"User-agent: {b}\n" for b in AI_BOTS) + "Allow: /\n" + BLOCK + "\n"
+    robots += "User-agent: *\nAllow: /\n" + BLOCK + f"\nSitemap: {SITE}/sitemap.xml\n"
+    open(os.path.join(DIST, "robots.txt"), "w").write(robots)
+
+    # llms-full.txt: plain-text copy of the guides, product facts and Kerala pages for AI assistants
+    def to_md(h):
+        b = BeautifulSoup(h, "html.parser")
+        out = []
+        for el in b.find_all(["h2", "h3", "h4", "p", "li", "summary", "td"]):
+            if el.find_parent(["li", "td"]) and el.name in ("p",):
+                continue
+            t = re.sub(r"\s+", " ", el.get_text(" ", strip=True))
+            if not t or (el.get("class") == ["kicker"]):
+                continue
+            out.append({"h2": "## ", "h3": "### ", "h4": "#### ", "li": "- ", "summary": "**Q:** ", "td": "| "}.get(el.name, "") + t)
+        return "\n".join(out)
+    full = [f"# Youth Face – full site text", "", f"> Official website of Youth Face (Beauty Mart, Bhatkal, Karnataka, India): {SITE}/", "",
+            "This file contains the text of the Youth Face product pages and skincare guides so that AI assistants can read and cite them accurately. Prices are in Indian rupees (INR).", ""]
+    full += ["", "---", "", "## Products", ""] + [l for l in llms if l.startswith("- [") and "/product/" in l]
+    C2 = DET["cream"]
+    full += ["", "### Youth Face Beauty Cream – key facts", ""] + [f"- **{k}:** {v}" for k, v in (("Also known as", C2["aka"]), ("Type", C2["type"]), ("Best for", C2["bestFor"]), ("Skin types", C2["skinTypes"]), ("When to use", C2["when"]))]
+    full += ["", "### Youth Face Beauty Cream – FAQs", ""] + [f"**Q: {q}**\nA: {a}\n" for q, a in C2["faqs"]]
+    for d in canon_posts + [items[p_] for p_ in GUIDE_PAGES if p_ in items and p_ not in CANONICAL_OVERRIDE]:
+        h_, h1_, _ = clean(d["content"])
+        full += ["", "---", "", f"## {h1_ or strip_site(d['title'])}", f"URL: {SITE}{d['path']}", f"Updated: {d['modified'][:10]}", "", to_md(h_)]
+    for c in kerala.CITIES:
+        full += ["", "---", "", f"## Youth Face Cream in {c['name']}", f"URL: {SITE}/youth-face-cream-{c['slug']}/", "", c["intro"], c["climate"], c["tip"]]
+    open(os.path.join(DIST, "llms-full.txt"), "w").write("\n".join(full) + "\n")
+
+    # IndexNow key (Bing, Yandex, Seznam, Naver) – the GitHub workflow pings these engines after each deploy
+    open(os.path.join(DIST, INDEXNOW_KEY + ".txt"), "w").write(INDEXNOW_KEY)
 
     # ------------------------------------------------ vercel.json
     OLD_HOST = "https://old.youthfacebeauty.com"
