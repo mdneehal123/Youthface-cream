@@ -147,11 +147,99 @@
       "has": [
         {
           "type": "query",
+          "key": "add-to-cart",
+          "value": "22"
+        }
+      ],
+      "destination": "/product/youth-face-beauty-cream-25g/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "add-to-cart",
+          "value": "159"
+        }
+      ],
+      "destination": "/product/youth-face-beauty-cream-pack-of-2/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "add-to-cart",
+          "value": "160"
+        }
+      ],
+      "destination": "/product/youth-face-beauty-cream-pack-of-3/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "add-to-cart",
+          "value": "330"
+        }
+      ],
+      "destination": "/product/youth-face-body-lotion/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
           "key": "add-to-cart"
         }
       ],
-      "destination": "/checkout/",
+      "destination": "/shop/",
       "permanent": false
+    },
+    {
+      "source": "/category/:slug/",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/tag/:slug/",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/author/:slug/",
+      "destination": "/about-the-author/",
+      "permanent": true
+    },
+    {
+      "source": "/product-category/:slug/",
+      "destination": "/shop/",
+      "permanent": true
+    },
+    {
+      "source": "/product-tag/:slug/",
+      "destination": "/shop/",
+      "permanent": true
+    },
+    {
+      "source": "/brand/:slug/",
+      "destination": "/shop/",
+      "permanent": true
+    },
+    {
+      "source": "/category/:slug/page/:n/",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/tag/:slug/page/:n/",
+      "destination": "/skincare-guides/",
+      "permanent": true
     }
   ],
   "rewrites": [

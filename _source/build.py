@@ -834,7 +834,11 @@ def main():
         {"source": "/wp-login.php", "destination": "/", "permanent": False},
         {"source": "/favicon.ico", "destination": "/favicon-48.png", "permanent": True},
         {"source": "/:slug/amp", "destination": "/:slug/", "permanent": True},
-        {"source": "/", "has": [{"type": "query", "key": "add-to-cart"}], "destination": "/checkout/", "permanent": False},
+        *[{"source": "/", "has": [{"type": "query", "key": "add-to-cart", "value": k}], "destination": v, "permanent": False} for k, v in ADD_TO_CART.items()],
+        {"source": "/", "has": [{"type": "query", "key": "add-to-cart"}], "destination": "/shop/", "permanent": False},
+        *[{"source": f"/{pre}/:slug/", "destination": dst, "permanent": True} for pre, dst in (("category", "/skincare-guides/"), ("tag", "/skincare-guides/"),
+          ("author", "/about-the-author/"), ("product-category", "/shop/"), ("product-tag", "/shop/"), ("brand", "/shop/"))],
+        *[{"source": f"/{pre}/:slug/page/:n/", "destination": dst, "permanent": True} for pre, dst in (("category", "/skincare-guides/"), ("tag", "/skincare-guides/"))],
     ]
     vercel = {
         "$schema": "https://openapi.vercel.sh/vercel.json",
