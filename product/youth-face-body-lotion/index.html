@@ -181,7 +181,7 @@ footer .copy{grid-column:1/-1;border-top:1px solid var(--line);padding-top:16px;
 .wa{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;background:#1fa855;color:#fff;border-radius:999px;padding:12px 16px;font-weight:700;text-decoration:none;box-shadow:0 8px 24px rgba(0,0,0,.18);font-size:14px}
 
 /* product view */
-.pdp .wrap{display:grid;grid-template-columns:1fr 1fr;gap:36px;padding-block:28px 60px}
+.pdp .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px;padding-block:28px 60px}
 .pdp .gallery{background:var(--petal);border-radius:var(--r);aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden}
 .pdp .gallery img{width:100%;height:100%;object-fit:cover}
 .pdp h1{font-size:clamp(28px,4vw,40px);font-weight:800;margin:8px 0 10px}
@@ -201,7 +201,9 @@ footer .copy{grid-column:1/-1;border-top:1px solid var(--line);padding-top:16px;
 .points li{display:flex;gap:10px;font-size:14.5px}
 .points li::before{content:"✓";color:var(--ok);font-weight:800}
 .back{display:inline-flex;gap:6px;font-weight:600;text-decoration:none;color:var(--muted);margin-bottom:6px;background:none;border:0;cursor:pointer;padding:0}
-@media (max-width:760px){.pdp .wrap{grid-template-columns:1fr;gap:20px}}
+.pdp .wrap > div{min-width:0}
+@media (max-width:760px){.pdp .wrap{grid-template-columns:minmax(0,1fr);gap:20px}}
+@media (max-width:420px){.packs{gap:8px}.pack{padding:10px 8px}.pack b{font-size:13px}.pack .tnum{font-size:16px}.pack .per{font-size:11px}.pack .tag{font-size:9px;right:4px}}
 
 .thumbs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:10px}
 .thumb{aspect-ratio:1/1;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;padding:0;background:var(--petal);cursor:pointer}
@@ -242,8 +244,10 @@ footer .copy{grid-column:1/-1;border-top:1px solid var(--line);padding-top:16px;
 .progress{display:flex;gap:6px;align-items:center;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.04em}
 .progress i{width:22px;height:3px;border-radius:2px;background:var(--line)}
 .progress i.on{background:var(--pink)}
-.co .wrap.cols{display:grid;grid-template-columns:1.25fr .9fr;gap:22px;padding-block:18px 120px;align-items:start}
-@media (max-width:860px){.co .wrap.cols{grid-template-columns:1fr}}
+.co .wrap.cols{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.9fr);gap:22px;padding-block:18px 120px;align-items:start}
+.co .wrap.cols > *{min-width:0}
+@media (max-width:860px){.co .wrap.cols{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.progress{display:none}.co-bar .logo{font-size:19px}}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:14px}
 .panel h3{font-size:17px;display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .panel h3 .num{width:24px;height:24px;border-radius:50%;background:var(--pink);color:var(--on-pink);display:grid;place-items:center;font-size:13px;font-family:var(--body)}
@@ -313,6 +317,7 @@ footer .copy{grid-column:1/-1;border-top:1px solid var(--line);padding-top:16px;
 @media (max-width:760px){.kstrip{grid-template-columns:1fr}}
 .krow{grid-column:1/-1;font-size:13px;opacity:.85;line-height:2}
 .krow a{display:inline;padding:0}
+@media (max-width:760px){body.on-pdp .wa{display:none}}
 /* product details */
 .pinfo{padding-block:10px 50px;border-top:1px solid var(--line);background:var(--surface)}
 .pi-nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 62px);z-index:5;display:flex;gap:8px;overflow-x:auto;padding-block:12px;background:var(--surface);scrollbar-width:none}
@@ -380,7 +385,8 @@ footer .copy{grid-column:1/-1;border-top:1px solid var(--line);padding-top:16px;
 .heart-pill[aria-pressed="true"]{border-color:var(--pink);color:var(--pink)}
 .ship-now{margin-top:10px;font-size:13.5px;color:var(--muted)}
 .ship-now b{color:var(--ink)}
-.pincheck{margin-top:12px;display:grid;gap:6px}
+.pincheck{margin-top:12px;display:grid;grid-template-columns:minmax(0,1fr);gap:6px}
+.pincheck .coupon,.pincheck .msg{min-width:0}
 .pincheck label{font-size:12.5px;font-weight:700;color:var(--muted)}
 .pincheck input{border-style:solid!important;text-transform:none!important}
 .fbt{margin-top:22px;border:1px solid var(--line);border-radius:var(--r);padding:16px;background:var(--surface)}
@@ -707,6 +713,7 @@ function render(){
   const isCo = h==="checkout"||h==="success";
   $("#topbar").hidden=isCo; $("#foot").hidden=isCo; $("#waFloat").hidden=isCo; $("#bnav").hidden=isCo; paintNav(h); document.querySelector(".ticker").hidden=isCo;
   const sbx=$("#stickyBuy"); if(sbx) sbx.classList.remove("show");
+  document.body.classList.toggle("on-pdp", h.startsWith("p-"));
   if(h.startsWith("p-") && byId(h.slice(2))) renderPDP(byId(h.slice(2)));
   else if(h==="checkout") renderCheckout();
   else if(h==="success") renderSuccess();
@@ -882,7 +889,7 @@ function renderPDP(p){
         <button class="btn btn-pink btn-block" id="pBuy">Buy now · ${rs(sel.price*qty)}</button>
         <div class="nudge" style="margin-top:12px">Extra ${CONFIG.prepaidDiscountPct}% off when you pay online at checkout</div>
         <div class="ship-now">🚚 ${dispatchLine()}</div>
-        <div class="pincheck"><label for="pdpPin">Check delivery date</label><div class="coupon"><input id="pdpPin" inputmode="numeric" maxlength="6" placeholder="Enter pin code" value="${esc(co.pin||"")}"><button type="button" class="btn btn-line" id="pdpPinBtn">Check</button></div><div class="msg" id="pdpPinMsg"></div></div>
+        <div class="pincheck"><label for="pdpPin">Check delivery to your pin code</label><div class="coupon"><input id="pdpPin" inputmode="numeric" maxlength="6" placeholder="Enter pin code" value="${esc(co.pin||"")}"><button type="button" class="btn btn-line" id="pdpPinBtn">Check</button></div><div class="msg" id="pdpPinMsg"></div></div>
         <div class="pdp-actions"><button class="heart-pill" data-wish="${sel.id}" aria-pressed="${wish.includes(sel.id)}">♥ Wishlist</button><a class="heart-pill" href="https://wa.me/?text=${encodeURIComponent("Check out "+sel.name+" ("+sel.size+") for "+rs(sel.price)+" on Youth Face: "+(PATH_MODE ? location.origin+PATHS["p-"+sel.id] : location.href.split("#")[0]+"#p-"+sel.id))}" target="_blank" rel="noopener">Share on WhatsApp</a></div>
         <ul class="points">
           <li>${esc(sel.short)}</li>
