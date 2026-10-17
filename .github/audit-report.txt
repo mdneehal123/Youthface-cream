@@ -1,139 +1,49 @@
-(all checks below forced to Vercel 216.198.79.1)
+(checks below use www, which points only to Vercel)
+apex https via Vercel: * ALPN: curl offers h2,http/1.1 *  CAfile: /etc/ssl/certs/ca-certificates.crt *  CApath: /etc/ssl/certs * SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256 / X25519 / RSASSA-PSS 
 DNS @    : 216.198.79.1 160.153.0.176 
-DNS www  : 4ce7e341e40c7114.vercel-dns-017.com. 64.29.17.65 216.198.79.65 
+DNS www  : 4ce7e341e40c7114.vercel-dns-017.com. 64.29.17.1 216.198.79.1 
 DNS TXT  : "v=spf1 include:secureserver.net -all" "google-site-verification=CUCKzAwX0QpgN9ntR1HKxMjwp7u0wgm0n50vmqDsHRk" 
 DNS MX   : 0 smtp.secureserver.net. 10 mailstore1.secureserver.net. 
 http->https: HTTP/1.0 308 Permanent Redirect Location: https://youthfacebeauty.com/ 
 www      : HTTP/2 200  
-home server: 
+home server: server: Vercel x-vercel-id: sfo1::xtrls-1792263442329-f5710cdfae8a 
 == pages (non-200 only) ==
-000 /
-000 /a-simple-daily-skincare-routine/
-000 /about-the-author/
-000 /about-us/
-000 /alpha-arbutin-pigmentation-guide/
-000 /anti-aging-skincare-routine-for-your-30s-india-edition/
-000 /apple-touch-icon.png
-000 /best-cream-for-dark-spots-in-india-2026-buyers-guide/
-000 /best-skincare-routine-for-oily-skin-in-india/
-000 /brighter-even-looking-skin-guide/
-000 /checkout/
-000 /contact/
-000 /dark-spot-cream-for-men/
-000 /dark-spots-uneven-skin-tone-routine/
-000 /editorial-policy/
-000 /faq/
-000 /favicon.svg
-000 /how-to-apply-youth-face-cream/
-000 /how-to-fade-sun-tan-naturally-ingredients-that-actually-help/
-000 /how-to-find-original-youth-face-cream/
-000 /how-to-introduce-a-new-skincare-product/
-000 /how-to-use-kojic-acid-cream-in-a-night-skincare-routine/
-000 /how-to-use/
-000 /is-youth-face-cream-good-for-skin/
-000 /is-youth-face-cream-good-or-bad/
-000 /is-youth-face-cream-legit-reviews-ingredients-what-to-check/
-000 /kojic-acid-alpha-arbutin-routine/
-000 /kojic-acid-and-alpha-arbutin-benefits-how-to-use-skincare-guide/
-000 /kojic-acid-cream-price-in-india-what-youre-actually-paying-for/
-000 /kojic-acid-dark-spots-guide/
-000 /kojic-acid-for-dark-spots-how-it-works-how-to-use-it-what-to-know/
-000 /kojic-acid-vs-alpha-arbutin-whats-the-difference/
-000 /kojic-acid-vs-niacinamide-which-is-better-for-pigmentation/
-000 /llms.txt
-000 /logo.png
-000 /night-cream-for-dark-spots-and-pigmentation/
-000 /order-success/
-000 /privacy-policy/
-000 /product/youth-face-beauty-cream-25g/
-000 /product/youth-face-beauty-cream-pack-of-2/
-000 /product/youth-face-beauty-cream-pack-of-3/
-000 /product/youth-face-body-lotion/
-000 /refund-returns-policy/
-000 /robots.txt
-000 /security/
-000 /shipping-delivery/
-000 /shop/
-000 /sitemap.xml
-000 /sitemap/
-000 /skincare-guides/
-000 /terms-conditions/
-000 /track-order/
-000 /understanding-kojic-acid-and-alpha-arbutin/
-000 /where-to-buy-original-youth-face-cream-avoiding-fakes/
-000 /who-is-the-owner-of-youth-face-cream/
-000 /wishlist/
-000 /youth-face-beauty-cream-benefits/
-000 /youth-face-beauty-cream-guide/
-000 /youth-face-beauty-cream/
-000 /youth-face-cream-alappuzha/
-000 /youth-face-cream-bhatkal-karnataka/
-000 /youth-face-cream-for-acne-prone-skin-what-to-know/
-000 /youth-face-cream-ingredients-list-full-breakdown/
-000 /youth-face-cream-ingredients/
-000 /youth-face-cream-kannur/
-000 /youth-face-cream-kasaragod/
-000 /youth-face-cream-kerala/
-000 /youth-face-cream-kochi/
-000 /youth-face-cream-kollam/
-000 /youth-face-cream-kottayam/
-000 /youth-face-cream-kozhikode/
-000 /youth-face-cream-malappuram/
-000 /youth-face-cream-palakkad/
-000 /youth-face-cream-price-in-india/
-000 /youth-face-cream-results-how-long-does-it-take/
-000 /youth-face-cream-side-effects-what-you-should-know/
-000 /youth-face-cream-skin-types-who-can-use-it/
-000 /youth-face-cream-thiruvananthapuram/
-000 /youth-face-cream-thrissur/
-pages checked: 79, problems: 79
+OLD-WORDPRESS /
+OLD-WORDPRESS /checkout/
+OLD-WORDPRESS /order-success/
+OLD-WORDPRESS /product/youth-face-beauty-cream-25g/
+OLD-WORDPRESS /product/youth-face-beauty-cream-pack-of-2/
+OLD-WORDPRESS /product/youth-face-beauty-cream-pack-of-3/
+OLD-WORDPRESS /product/youth-face-body-lotion/
+OLD-WORDPRESS /shop/
+OLD-WORDPRESS /wishlist/
+pages checked: 79, problems: 0
 == redirects ==
-/cart/ -> 000  (want /checkout/)
-/my-account/ -> 000  (want /track-order/)
-/feed/ -> 000  (want /skincare-guides/)
-/sitemap_index.xml -> 000  (want /sitemap.xml)
-/category/skincare/ -> 000  (want /skincare-guides/)
-/author/admin/ -> 000  (want /about-the-author/)
-/product-category/face/ -> 000  (want /shop/)
-/?add-to-cart=22 -> 000  (want /checkout/)
-/favicon.ico -> 000  (want /favicon-48.png)
-/about-us -> 000  (want /about-us/)
+/cart/ -> 308 https://www.youthfacebeauty.com/checkout/ (want /checkout/)
+/my-account/ -> 308 https://www.youthfacebeauty.com/track-order/ (want /track-order/)
+/feed/ -> 308 https://www.youthfacebeauty.com/skincare-guides/ (want /skincare-guides/)
+/sitemap_index.xml -> 308 https://www.youthfacebeauty.com/sitemap.xml (want /sitemap.xml)
+/category/skincare/ -> 404  (want /skincare-guides/)
+/author/admin/ -> 404  (want /about-the-author/)
+/product-category/face/ -> 404  (want /shop/)
+/?add-to-cart=22 -> 307 https://www.youthfacebeauty.com/checkout/?add-to-cart=22 (want /checkout/)
+/favicon.ico -> 308 https://www.youthfacebeauty.com/favicon-48.png (want /favicon-48.png)
+/about-us -> 308 https://www.youthfacebeauty.com/about-us/ (want /about-us/)
 == photos ==
-PHOTO 000  2026/09/1278681856.jpg
-PHOTO 000  2026/09/1715104767.jpg
-PHOTO 000  2026/09/1715104774.jpg
-PHOTO 000  2026/09/2285002553.jpg
-PHOTO 000  2026/09/6be0a814-b1de-412c-98cd-06647184de2d.jpg
-PHOTO 000  2026/09/ChatGPT-Image-Sep-15-2026-05_54_36-PM.png
-PHOTO 000  2026/09/ChatGPT-Image-Sep-17-2026-08_27_12-PM-600x600.png
-PHOTO 000  2026/09/ChatGPT-Image-Sep-17-2026-08_27_12-PM.png
-PHOTO 000  2026/09/ChatGPT-Image-Sep-19-2026-01_47_45-AM-600x600.png
-PHOTO 000  2026/09/Youth-Face-Beauty-Cream-25g-600x600.png
-PHOTO 000  2026/09/Youth-Face-Beauty-Cream-25g.png
-PHOTO 000  2026/09/Youth-Face-Beauty-Cream-skincare-product-for-dark-spot-care-600x600.png
-PHOTO 000  2026/09/anti-aging-routine-30s.jpg
-PHOTO 000  2026/09/best-cream-dark-spots-india.jpg
-PHOTO 000  2026/09/buy-original-youth-face.jpg
-PHOTO 000  2026/09/cream-for-acne-prone-skin.jpg
-PHOTO 000  2026/09/fade-sun-tan-naturally.jpg
-PHOTO 000  2026/09/ingredients-list-small.jpg
-PHOTO 000  2026/09/is-youth-face-legit.jpg
-PHOTO 000  2026/09/kojic-acid-price-india.jpg
-PHOTO 000  2026/09/kojic-vs-niacinamide.jpg
-PHOTO 000  2026/09/oily-skin-routine-india.jpg
-PHOTO 000  2026/09/youth-face-jars-boxes-real.jpg
-PHOTO 000  2026/09/youth-face-jars-studio-shot.jpg
-PHOTO 000  2026/09/youth-face-lid-authentication-seal.jpg
-PHOTO 000  2026/09/youth-face-lifestyle-outdoor.jpg
-PHOTO 000  2026/09/youth-face-routine-apply-cream.jpg
-PHOTO 000  2026/09/youth-face-routine-cleanse.jpg
-PHOTO 000  2026/09/youth-face-routine-pat-dry.jpg
-photos ok: 0, failed: 29
+photos ok: 29, failed: 0
 == image refs in pages that are not in repo ==
+MISSING /wp-content/uploads/2026/09/
 == SEO spot check ==
-/ |  | canonical  | robots  | ld 0
-/product/youth-face-beauty-cream-25g/ |  | canonical  | robots  | ld 0
-/youth-face-cream-kochi/ |  | canonical  | robots  | ld 0
-/kojic-acid-dark-spots-guide/ |  | canonical  | robots  | ld 0
+/ | Youth Face Cream ₹549 – Kojic Acid Dark Spot Cream | Youth Face | canonical https://youthfacebeauty.com/ | robots index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1 | ld 4
+/product/youth-face-beauty-cream-25g/ | Youth Face Beauty Cream 25g – Pack of 1 | ₹549 | canonical https://youthfacebeauty.com/product/youth-face-beauty-cream-25g/ | robots index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1 | ld 3
+/youth-face-cream-kochi/ | Youth Face Cream in Kochi (Ernakulam) – ₹549, COD Available | canonical https://youthfacebeauty.com/youth-face-cream-kochi/ | robots index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1 | ld 3
+/kojic-acid-dark-spots-guide/ | Kojic Acid for Dark Spots &amp; Uneven Skin: Complete Guide | canonical https://youthfacebeauty.com/kojic-acid-for-dark-spots-how-it-works-how-to-use-it-what-to-know/ | robots index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1 | ld 2
 robots.txt:
-sitemap urls: 0
+User-agent: *
+Allow: /
+Disallow: /checkout/
+Disallow: /order-success/
+Disallow: /wishlist/
+
+Sitemap: https://youthfacebeauty.com/sitemap.xml
+sitemap urls: 64
