@@ -16,7 +16,7 @@ jobs:
           R=.github/audit-report.txt; : > $R
           S=https://youthfacebeauty.com
           V=''
-          echo "(checks below use the main domain) run $(date -u)" >> $R
+          echo "(checks below use the main domain) run $(date -u) after www->apex" >> $R
           echo "apex https via Vercel: $(curl -sv --resolve youthfacebeauty.com:443:216.198.79.1 https://youthfacebeauty.com/ -o /dev/null 2>&1 | grep -iE 'subject:|SSL|alert|HTTP/' | head -4 | tr '\n' ' ')" >> $R
           { echo "DNS @    : $(dig +short youthfacebeauty.com A | tr '\n' ' ')"
             echo "DNS www  : $(dig +short www.youthfacebeauty.com | tr '\n' ' ')"
@@ -59,4 +59,4 @@ jobs:
         if: always()
         run: |
           git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .github/audit-report.txt; git commit -m "Live site audit report [skip ci]" && git push
+          git pull -q --rebase || true; git add .github/audit-report.txt; git commit -m "Live site audit report [skip ci]" && git push

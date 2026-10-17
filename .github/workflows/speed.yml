@@ -20,18 +20,18 @@ jobs:
           for u in / /product/youth-face-beauty-cream-25g/ /best-cream-for-dark-spots-in-india-2026-buyers-guide/ /youth-face-cream-kochi/; do
             for mode in mobile desktop; do
               extra=""; [ $mode = desktop ] && extra="--preset=desktop"
-              lighthouse "https://www.youthfacebeauty.com$u" $extra --quiet --output=json --output-path=/tmp/lh.json \
+              lighthouse "https://youthfacebeauty.com$u" $extra --quiet --output=json --output-path=/tmp/lh.json \
                 --only-categories=performance,accessibility,best-practices,seo --chrome-flags="--headless=new --no-sandbox" >/dev/null 2>&1
               node -e '
                 const r=require("/tmp/lh.json"); const c=r.categories, a=r.audits;
                 const s=k=>Math.round((c[k]?.score||0)*100);
                 console.log(`\n== ${process.argv[1]} [${process.argv[2]}] perf ${s("performance")} | a11y ${s("accessibility")} | best ${s("best-practices")} | seo ${s("seo")}`);
-                console.log(`   FCP ${a["first-contentful-paint"].displayValue} | LCP ${a["largest-contentful-paint"].displayValue} | TBT ${a["total-blocking-time"].displayValue} | CLS ${a["cumulative-layout-shift"].displayValue} | SI ${a["speed-index"].displayValue} | weight ${Math.round(a["total-byte-weight"].numericValue/1024)} KB`);
+                console.log(`   FCP ${a["first-contentful-paint"].displayValue} | LCP ${a["largest-contentful-paint"].displayValue} | TBT ${a["total-blocking-time"].displayValue} | CLS ${a["cumulative-layout-shift"].displayValue} | weight ${Math.round(a["total-byte-weight"].numericValue/1024)} KB`);
                 const lcp=a["largest-contentful-paint-element"]?.details?.items?.[0]?.items?.[0]?.node?.snippet; if(lcp) console.log("   LCP element: "+lcp.slice(0,140));
-                Object.values(a).filter(x=>x.score!==null && x.score<0.9 && x.scoreDisplayMode!=="informative" && x.scoreDisplayMode!=="notApplicable" && x.scoreDisplayMode!=="manual")
-                  .slice(0,14).forEach(x=>{ let d=x.displayValue||""; let items=(x.details?.items||[]).slice(0,3).map(i=>(i.url||i.node?.snippet||i.label||"").toString().slice(0,90)).filter(Boolean).join(" ; ");
-                    console.log(`   - ${x.title} ${d} ${items? "["+items+"]":""}`) });
-              ' "$u" "$mode" >> $R
+                Object.values(a).filter(x=>x.score!==null && x.score<0.9 && !["informative","notApplicable","manual"].includes(x.scoreDisplayMode))
+                  .slice(0,14).forEach(x=>{ const items=(x.details?.items||[]).slice(0,3).map(i=>(i.url||i.node?.snippet||i.label||"").toString().slice(0,90)).filter(Boolean).join(" ; ");
+                    console.log(`   - ${x.title} ${x.displayValue||""} ${items? "["+items+"]":""}`) });
+              ' "$u" "$mode" >> $R 2>&1
             done
           done
           cat $R
@@ -39,4 +39,5 @@ jobs:
         if: always()
         run: |
           git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull -q --rebase || true
           git add .github/speed-report.txt; git commit -m "Speed test report [skip ci]" && git push
