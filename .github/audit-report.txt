@@ -1,12 +1,12 @@
-(checks below use the main domain) run Sat Oct 17 19:54:02 UTC 2026 www is primary
+(checks below use the main domain) run Sat Oct 17 20:13:22 UTC 2026 www is primary
 apex https via Vercel: * ALPN: curl offers h2,http/1.1 *  CAfile: /etc/ssl/certs/ca-certificates.crt *  CApath: /etc/ssl/certs * SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256 / X25519 / RSASSA-PSS 
 DNS @    : 216.198.79.1 
-DNS www  : 4ce7e341e40c7114.vercel-dns-017.com. 216.198.79.1 64.29.17.1 
+DNS www  : 4ce7e341e40c7114.vercel-dns-017.com. 64.29.17.65 216.198.79.65 
 DNS TXT  : "v=spf1 include:secureserver.net -all" "google-site-verification=CUCKzAwX0QpgN9ntR1HKxMjwp7u0wgm0n50vmqDsHRk" 
 DNS MX   : 10 mailstore1.secureserver.net. 0 smtp.secureserver.net. 
 http->https: HTTP/1.0 308 Permanent Redirect Location: https://youthfacebeauty.com/ 
 www      : HTTP/2 200  
-home server: server: Vercel x-vercel-id: iad1::j5sf9-1792266843796-f165f2bce5c7 
+home server: server: Vercel x-vercel-id: pdx1::jml2c-1792268003783-75682168ffa1 
 == pages (non-200 only) ==
 OLD-WORDPRESS /
 OLD-WORDPRESS /checkout/
@@ -17,7 +17,7 @@ OLD-WORDPRESS /product/youth-face-beauty-cream-pack-of-3/
 OLD-WORDPRESS /product/youth-face-body-lotion/
 OLD-WORDPRESS /shop/
 OLD-WORDPRESS /wishlist/
-pages checked: 79, problems: 0
+pages checked: 81, problems: 0
 == redirects ==
 /cart/ -> 308 https://www.youthfacebeauty.com/checkout/ (want /checkout/)
 /my-account/ -> 308 https://www.youthfacebeauty.com/track-order/ (want /track-order/)
@@ -39,6 +39,30 @@ MISSING /wp-content/uploads/2026/09/
 /youth-face-cream-kochi/ | Youth Face Cream in Kochi (Ernakulam) – ₹549, COD Available | canonical https://www.youthfacebeauty.com/youth-face-cream-kochi/ | robots index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1 | ld 3
 /kojic-acid-dark-spots-guide/ | Kojic Acid for Dark Spots &amp; Uneven Skin: Complete Guide | canonical https://www.youthfacebeauty.com/kojic-acid-for-dark-spots-how-it-works-how-to-use-it-what-to-know/ | robots index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1 | ld 2
 robots.txt:
+# Search engines and AI assistants are welcome to read and cite this site.
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: Google-Extended
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: Applebot
+User-agent: Applebot-Extended
+User-agent: DuckDuckBot
+User-agent: YandexBot
+User-agent: CCBot
+User-agent: Amazonbot
+User-agent: Meta-ExternalAgent
+Allow: /
+Disallow: /checkout/
+Disallow: /order-success/
+Disallow: /wishlist/
+
 User-agent: *
 Allow: /
 Disallow: /checkout/
