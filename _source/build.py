@@ -253,6 +253,7 @@ def head(title, desc, path, *, canonical=None, robots="index, follow, max-snippe
 <link rel="canonical" href="{canonical}">
 <meta name="google-site-verification" content="{GSV}">
 <meta name="theme-color" content="#fbe4e6">
+<script>document.documentElement.classList.add("js")</script>
 <link rel="icon" href="{ICON}">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:locale" content="en_IN">
@@ -500,7 +501,7 @@ def main():
         doc = head(m["title"], m["description"], path, ld=ld, image=image,
                    og_type="product" if key.startswith("p-") else "website",
                    extra=STYLE + "\n" + boot)
-        body = APP_BODY.replace('<main id="view"></main>', f'<main id="view">{prerender}</main>', 1) if prerender else APP_BODY
+        body = APP_BODY.replace('<main id="view"></main>', f'<main id="view"><div class="prerender">{prerender}</div></main>', 1) if prerender else APP_BODY
         doc += "\n</head>\n<body>\n" + body + "\n</body>\n</html>\n"
         write(path, doc)
 
