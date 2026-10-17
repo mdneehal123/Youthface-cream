@@ -14,9 +14,9 @@ jobs:
         run: |
           set +e
           R=.github/audit-report.txt; : > $R
-          S=https://youthfacebeauty.com
+          S=https://www.youthfacebeauty.com
           V=''
-          echo "(checks below use the main domain) run $(date -u) after www->apex" >> $R
+          echo "(checks below use the main domain) run $(date -u) www is primary" >> $R
           echo "apex https via Vercel: $(curl -sv --resolve youthfacebeauty.com:443:216.198.79.1 https://youthfacebeauty.com/ -o /dev/null 2>&1 | grep -iE 'subject:|SSL|alert|HTTP/' | head -4 | tr '\n' ' ')" >> $R
           { echo "DNS @    : $(dig +short youthfacebeauty.com A | tr '\n' ' ')"
             echo "DNS www  : $(dig +short www.youthfacebeauty.com | tr '\n' ' ')"

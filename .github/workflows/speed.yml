@@ -20,7 +20,7 @@ jobs:
           for u in / /product/youth-face-beauty-cream-25g/ /best-cream-for-dark-spots-in-india-2026-buyers-guide/ /youth-face-cream-kochi/; do
             for mode in mobile desktop; do
               extra=""; [ $mode = desktop ] && extra="--preset=desktop"
-              lighthouse "https://youthfacebeauty.com$u" $extra --quiet --output=json --output-path=/tmp/lh.json \
+              lighthouse "https://www.youthfacebeauty.com$u" $extra --quiet --output=json --output-path=/tmp/lh.json \
                 --only-categories=performance,accessibility,best-practices,seo --chrome-flags="--headless=new --no-sandbox" >/dev/null 2>&1
               node -e '
                 const r=require("/tmp/lh.json"); const c=r.categories, a=r.audits;

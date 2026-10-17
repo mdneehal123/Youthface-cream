@@ -15,7 +15,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 SRC_APP = os.path.join(ROOT, "index.html")
 CONTENT = os.path.join(ROOT, "content")
 DIST = os.path.join(ROOT, "dist")
-SITE = "https://youthfacebeauty.com"
+SITE = "https://www.youthfacebeauty.com"
 GSV = "CUCKzAwX0QpgN9ntR1HKxMjwp7u0wgm0n50vmqDsHRk"
 UP = "/wp-content/uploads/2026/09/"
 OG_DEFAULT = SITE + UP + "Youth-Face-Beauty-Cream-25g.png"
@@ -178,6 +178,8 @@ def clean(content):
             t["src"] = fix_url(t.get("src", ""))
             t["loading"] = "lazy"
             t["decoding"] = "async"
+    for a in soup.find_all("a", href=re.compile(r"^#yfb")):
+        a.decompose()
     for tb in soup.find_all("table"):
         wrap = soup.new_tag("div")
         wrap["class"] = ["tbl"]
@@ -226,7 +228,9 @@ APPCFG = {k: _cfg(k) for k in ("ga4Id", "metaPixelId", "grievanceOfficer", "manu
 STYLE = re.search(r"<style>.*?</style>", APP, re.S).group(0)
 APP_BODY = APP[APP.index('<div class="ticker"'):]
 APP_BODY = APP_BODY.replace('const IMG = "https://youthfacebeauty.com/wp-content/uploads/2026/09/";', 'const IMG = "/wp-content/uploads/2026/09/";')
-FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">'
+FONTS_URL = "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap"
+FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
+         f'<link rel="preload" as="style" href="{FONTS_URL}" onload="this.onload=null;this.rel=\'stylesheet\'"><noscript><link rel="stylesheet" href="{FONTS_URL}"></noscript>')
 
 
 def head(title, desc, path, *, canonical=None, robots="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
@@ -282,7 +286,21 @@ def crumbs(items):
             "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": n, "item": SITE + p} for i, (n, p) in enumerate(items)]}
 
 
+WEBP = {os.path.splitext(os.path.basename(f))[0] for f in glob.glob(os.path.join(ROOT, "static", "wp-content", "uploads", "*", "*", "*.webp"))}
+
+
+def webp(doc):
+    """Serve WebP in <img> tags and app image names; keep PNG/JPG for social previews and schema."""
+    def sub(m):
+        stem = m.group(2)
+        return f'{m.group(1)}{stem}.webp' if stem in WEBP else m.group(0)
+    doc = re.sub(r'(src="/wp-content/uploads/\d{4}/\d{2}/)([^"/]+?)\.(?:png|jpe?g)', sub, doc)
+    doc = re.sub(r'(IMG\s*\+\s*")([^"]+?)\.(?:png|jpe?g)', sub, doc)
+    return doc
+
+
 def write(path, doc):
+    doc = webp(doc)
     out = os.path.join(DIST, path.strip("/"), "index.html") if path != "/" else os.path.join(DIST, "index.html")
     os.makedirs(os.path.dirname(out), exist_ok=True)
     open(out, "w", encoding="utf-8").write(doc)
@@ -300,9 +318,9 @@ FOOTER_TPL = '''<footer><div class="wrap">
   <div><div class="logo" style="color:inherit">Youth<span>Face</span></div>
     <p style="opacity:.75;max-width:34ch">Simple everyday skincare with Kojic Acid &amp; Alpha Arbutin. Beauty Mart · Bhatkal, Karnataka, India.</p>
     <p style="opacity:.75;margin:0">WhatsApp: <span style="user-select:all">+91 99808 81230</span></p></div>
-  <div><h4>Shop</h4><a href="/product/youth-face-beauty-cream-25g/">Beauty Cream 25g</a><a href="/product/youth-face-beauty-cream-pack-of-2/">Pack of 2</a><a href="/product/youth-face-beauty-cream-pack-of-3/">Pack of 3</a><a href="/product/youth-face-body-lotion/">Body Lotion</a></div>
-  <div><h4>Help</h4><a href="/how-to-use/">How to use</a><a href="/faq/">FAQ</a><a href="/track-order/">Track order</a><a href="/contact/">Contact us</a><a href="/skincare-guides/">Skincare guides</a></div>
-  <div><h4>Policies</h4><a href="/shipping-delivery/">Shipping &amp; delivery</a><a href="/refund-returns-policy/">Refund &amp; returns</a><a href="/privacy-policy/">Privacy policy</a><a href="/terms-conditions/">Terms &amp; conditions</a><a href="/about-us/">About us</a><a href="/youth-face-cream-kerala/">Delivery in Kerala</a><a href="/sitemap/">Sitemap</a></div>
+  <div><p class="fh">Shop</p><a href="/product/youth-face-beauty-cream-25g/">Beauty Cream 25g</a><a href="/product/youth-face-beauty-cream-pack-of-2/">Pack of 2</a><a href="/product/youth-face-beauty-cream-pack-of-3/">Pack of 3</a><a href="/product/youth-face-body-lotion/">Body Lotion</a></div>
+  <div><p class="fh">Help</p><a href="/how-to-use/">How to use</a><a href="/faq/">FAQ</a><a href="/track-order/">Track order</a><a href="/contact/">Contact us</a><a href="/skincare-guides/">Skincare guides</a></div>
+  <div><p class="fh">Policies</p><a href="/shipping-delivery/">Shipping &amp; delivery</a><a href="/refund-returns-policy/">Refund &amp; returns</a><a href="/privacy-policy/">Privacy policy</a><a href="/terms-conditions/">Terms &amp; conditions</a><a href="/about-us/">About us</a><a href="/youth-face-cream-kerala/">Delivery in Kerala</a><a href="/sitemap/">Sitemap</a></div>
   <div class="krow"><b>Delivery in Kerala:</b> <a href="/youth-face-cream-kochi/">Kochi</a> · <a href="/youth-face-cream-thiruvananthapuram/">Thiruvananthapuram</a> · <a href="/youth-face-cream-kozhikode/">Kozhikode</a> · <a href="/youth-face-cream-thrissur/">Thrissur</a> · <a href="/youth-face-cream-malappuram/">Malappuram</a> · <a href="/youth-face-cream-kannur/">Kannur</a> · <a href="/youth-face-cream-kasaragod/">Kasaragod</a> · <a href="/youth-face-cream-palakkad/">Palakkad</a> · <a href="/youth-face-cream-kottayam/">Kottayam</a> · <a href="/youth-face-cream-alappuzha/">Alappuzha</a> · <a href="/youth-face-cream-kollam/">Kollam</a></div>
   <div class="copy">© 2026 Youth Face · Sold by Beauty Mart, Azad Nagar, 4th Cross, Bhatkal, Karnataka, India · Customer care &amp; grievances: +91 99808 81230 · mdneehal@gmail.com{GRIEVANCE}</div>
 </div></footer>
@@ -372,7 +390,7 @@ ARTICLE_CSS = '''<style>
 </style>'''
 
 BUYBOX = '''<aside class="buybox" aria-label="Shop Youth Face Beauty Cream">
-  <div class="pic"><img src="/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-25g-600x600.png" alt="Youth Face Beauty Cream 25g jar" loading="lazy"></div>
+  <div class="pic"><img src="/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-25g-600x600.png" alt="Youth Face Beauty Cream 25g jar" width="600" height="600" loading="lazy"></div>
   <div><div class="eyebrow">Official store</div><h3>Youth Face Beauty Cream 25g</h3>
     <div class="price"><span class="now tnum">₹549</span><s class="tnum">₹899</s><span class="off">39% OFF</span></div>
     <div class="per">Kojic Acid &amp; Alpha Arbutin · COD available · Free shipping</div>
@@ -447,7 +465,7 @@ def main():
         if APPCFG.get("countryOfOrigin"):
             rows.append(("Country of origin", APPCFG["countryOfOrigin"]))
         rows += [("Customer care", "+91 99808 81230 (WhatsApp & call) · mdneehal@gmail.com"), ("SKU", sku)]
-        h = [f'<section class="pdp"><div class="wrap"><div><div class="gallery"><img src="{UP}{img[pid]}" alt="{esc(name)} {esc(qty)}"></div></div><div>',
+        h = [f'<section class="pdp"><div class="wrap"><div><div class="gallery"><img src="{UP}{img[pid]}" alt="{esc(name)} {esc(qty)}" width="600" height="600" fetchpriority="high"></div></div><div>',
              f'<h1>{esc(name)} – {esc(qty)}</h1><div class="price"><span class="now tnum">{inr(pr)}</span>' + (f'<s>MRP {inr(mrp)}</s>' if mrp > pr else "") + '</div>',
              f'<p>{esc(D["summary"])}</p><p><a class="btn btn-pink" href="/checkout/">Buy now</a></p></div></div></section>',
              '<section class="pinfo"><div class="wrap"><article class="pi-main">',
@@ -859,7 +877,10 @@ def main():
     }
     json.dump(vercel, open(os.path.join(DIST, "vercel.json"), "w"), indent=2)
     for f in glob.glob(os.path.join(ROOT, "static", "*")):
-        shutil.copy(f, DIST)
+        if os.path.isdir(f):
+            shutil.copytree(f, os.path.join(DIST, os.path.basename(f)), dirs_exist_ok=True)
+        else:
+            shutil.copy(f, DIST)
     print("built", sum(len(f) for _, _, f in os.walk(DIST)), "files;", len(rows), "URLs in sitemap.xml")
 
 

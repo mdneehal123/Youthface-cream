@@ -4,4 +4,4 @@ Disallow: /checkout/
 Disallow: /order-success/
 Disallow: /wishlist/
 
-Sitemap: https://youthfacebeauty.com/sitemap.xml
+Sitemap: https://www.youthfacebeauty.com/sitemap.xml
