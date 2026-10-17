@@ -1,12 +1,12 @@
-(checks below use the main domain) run Sat Oct 17 20:20:39 UTC 2026 www is primary
+(checks below use the main domain) run Sat Oct 17 20:22:59 UTC 2026 www is primary
 apex https via Vercel: * ALPN: curl offers h2,http/1.1 *  CAfile: /etc/ssl/certs/ca-certificates.crt *  CApath: /etc/ssl/certs * SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256 / X25519 / RSASSA-PSS 
 DNS @    : 216.198.79.1 
-DNS www  : 4ce7e341e40c7114.vercel-dns-017.com. 216.198.79.65 64.29.17.65 
+DNS www  : 4ce7e341e40c7114.vercel-dns-017.com. 64.29.17.1 216.198.79.1 
 DNS TXT  : "v=spf1 include:secureserver.net -all" "google-site-verification=CUCKzAwX0QpgN9ntR1HKxMjwp7u0wgm0n50vmqDsHRk" 
 DNS MX   : 10 mailstore1.secureserver.net. 0 smtp.secureserver.net. 
 http->https: HTTP/1.0 308 Permanent Redirect Location: https://youthfacebeauty.com/ 
 www      : HTTP/2 200  
-home server: server: Vercel x-vercel-id: sfo1::8nqjr-1792268440098-e96b2467a508 
+home server: server: Vercel x-vercel-id: iad1::7r978-1792268580369-4380753bf18f 
 == pages (non-200 only) ==
 OLD-WORDPRESS /
 OLD-WORDPRESS /checkout/
