@@ -13,8 +13,12 @@ jobs:
       - name: Download photos
         run: |
           set +e
+          exec > >(tee .github/photo-report.txt) 2>&1
           IP=$(dig +short old.youthfacebeauty.com A | tail -1)
           echo "old.youthfacebeauty.com -> ${IP:-no A record}"
+          echo "youthfacebeauty.com -> $(dig +short youthfacebeauty.com A | tr '\n' ' ')"
+          echo "old home: $(curl -skI --max-time 20 https://old.youthfacebeauty.com/ | head -1)"
+          echo "old test image: $(curl -skI --max-time 20 https://old.youthfacebeauty.com/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-25g.png | head -1)"
           ok=0; fail=0
           while read -r p; do
             [ -z "$p" ] && continue
@@ -27,15 +31,23 @@ jobs:
               curl -fsSLk --max-time 60 -A "Mozilla/5.0" --resolve "youthfacebeauty.com:443:$IP" -o "$out" "https://youthfacebeauty.com/wp-content/uploads/$p" \
                 && file --mime-type -b "$out" | grep -q '^image/' && got="origin-ip"
             fi
-            if [ -n "$got" ]; then echo "OK   $p"; ok=$((ok+1)); else echo "FAIL $p"; rm -f "$out"; fail=$((fail+1)); fi
+            if [ -z "$got" ]; then
+              for ts in 2026 2025; do
+                curl -fsSL --max-time 60 -o "$out" "https://web.archive.org/web/${ts}id_/https://youthfacebeauty.com/wp-content/uploads/$p" \
+                  && file --mime-type -b "$out" | grep -q '^image/' && got="archive" && break
+              done
+            fi
+            if [ -n "$got" ]; then echo "OK   $p ($got)"; ok=$((ok+1)); else echo "FAIL $p"; rm -f "$out"; fail=$((fail+1)); fi
           done < .github/images.txt
           echo "Downloaded $ok, failed $fail"
           echo "OK=$ok" >> $GITHUB_ENV
+          sleep 1
       - name: Commit photos
-        if: env.OK != '0'
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add wp-content
-          git diff --cached --quiet || git commit -m "Add product and blog photos from WordPress"
+          git add .github/photo-report.txt
+          [ -d wp-content ] && git add wp-content
+          git diff --cached --quiet || git commit -m "Add product and blog photos from WordPress [skip ci]"
           git push
