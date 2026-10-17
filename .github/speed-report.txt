@@ -1,0 +1,75 @@
+Speed test Sat Oct 17 19:46:42 UTC 2026
+
+== / [mobile] perf 59 | a11y 94 | best 100 | seo 100
+   FCP 3.6 s | LCP 4.6 s | TBT 0 ms | CLS 0.351 | SI 3.6 s | weight 1550 KB
+   - First Contentful Paint 3.6 s 
+   - Largest Contentful Paint 4.6 s 
+   - Speed Index 3.6 s 
+   - Cumulative Layout Shift 0.351 
+   - Time to Interactive 4.6 s 
+   - Minimize main-thread work 2.3 s 
+   - Image elements do not have explicit `width` and `height`  [https://www.youthfacebeauty.com/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-25g-600]
+   - Background and foreground colors do not have a sufficient contrast ratio.  [<small> ; <div> ; <div>]
+   - Heading elements are not in a sequentially-descending order  [<h4>]
+   - Elements with visible text labels do not have matching accessible names.  [<button class="cart-btn" id="openCart" aria-label="Open cart">]
+   - Serve images in next-gen formats Potential savings of 1,237 KiB [https://www.youthfacebeauty.com/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-skincar ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/ChatGPT-Image-Sep-17-2026-08_27 ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-25g-600]
+
+== / [desktop] perf 90 | a11y 94 | best 100 | seo 100
+   FCP 1.0 s | LCP 1.9 s | TBT 0 ms | CLS 0.009 | SI 1.0 s | weight 1624 KB
+   - First Contentful Paint 1.0 s 
+   - Largest Contentful Paint 1.9 s 
+   - Image elements do not have explicit `width` and `height`  [https://www.youthfacebeauty.com/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-25g-600]
+   - Background and foreground colors do not have a sufficient contrast ratio.  [<small> ; <div> ; <div>]
+   - Heading elements are not in a sequentially-descending order  [<h4>]
+   - Elements with visible text labels do not have matching accessible names.  [<button class="cart-btn" id="openCart" aria-label="Open cart">]
+   - Serve images in next-gen formats Potential savings of 1,237 KiB [https://www.youthfacebeauty.com/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-skincar ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/ChatGPT-Image-Sep-17-2026-08_27 ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-25g-600]
+   - Properly size images Potential savings of 1,019 KiB [https://www.youthfacebeauty.com/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-skincar ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/ChatGPT-Image-Sep-17-2026-08_27 ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/ChatGPT-Image-Sep-19-2026-01_47]
+
+== /product/youth-face-beauty-cream-25g/ [mobile] perf 74 | a11y 96 | best 100 | seo 100
+   FCP 3.5 s | LCP 5.0 s | TBT 0 ms | CLS 0.001 | SI 3.5 s | weight 846 KB
+   - First Contentful Paint 3.5 s 
+   - Largest Contentful Paint 5.0 s 
+   - Speed Index 3.5 s 
+   - Time to Interactive 5.0 s 
+   - Background and foreground colors do not have a sufficient contrast ratio.  [<small> ; <button class="back" data-go="home"> ; <div class="eyebrow">]
+   - Elements with visible text labels do not have matching accessible names.  [<button class="cart-btn" id="openCart" aria-label="Open cart">]
+   - Serve images in next-gen formats Potential savings of 567 KiB [https://www.youthfacebeauty.com/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-25g-600 ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/ChatGPT-Image-Sep-19-2026-01_47]
+   - Properly size images Potential savings of 319 KiB [https://www.youthfacebeauty.com/wp-content/uploads/2026/09/ChatGPT-Image-Sep-19-2026-01_47 ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/youth-face-lid-authentication-s ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/youth-face-jars-boxes-real.jpg]
+
+== /product/youth-face-beauty-cream-25g/ [desktop] perf 97 | a11y 96 | best 100 | seo 100
+   FCP 1.0 s | LCP 1.1 s | TBT 0 ms | CLS 0.006 | SI 1.0 s | weight 846 KB
+   - First Contentful Paint 1.0 s 
+   - Background and foreground colors do not have a sufficient contrast ratio.  [<small> ; <button class="back" data-go="home"> ; <div class="eyebrow">]
+   - Elements with visible text labels do not have matching accessible names.  [<button class="cart-btn" id="openCart" aria-label="Open cart">]
+   - Serve images in next-gen formats Potential savings of 567 KiB [https://www.youthfacebeauty.com/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-25g-600 ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/ChatGPT-Image-Sep-19-2026-01_47]
+   - Properly size images Potential savings of 407 KiB [https://www.youthfacebeauty.com/wp-content/uploads/2026/09/ChatGPT-Image-Sep-19-2026-01_47 ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-25g-600 ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/youth-face-lid-authentication-s]
+
+== /best-cream-for-dark-spots-in-india-2026-buyers-guide/ [mobile] perf 83 | a11y 89 | best 100 | seo 100
+   FCP 3.5 s | LCP 3.5 s | TBT 0 ms | CLS 0.004 | SI 3.5 s | weight 159 KB
+   - First Contentful Paint 3.5 s 
+   - Largest Contentful Paint 3.5 s 
+   - Speed Index 3.5 s 
+   - Background and foreground colors do not have a sufficient contrast ratio.  [<small> ; <a href="/"> ; <a href="/skincare-guides/">]
+   - Heading elements are not in a sequentially-descending order  [<h4>]
+   - Touch targets do not have sufficient size or spacing.  [<a href="#yfb-buy-dismiss-475">]
+
+== /best-cream-for-dark-spots-in-india-2026-buyers-guide/ [desktop] perf 97 | a11y 89 | best 100 | seo 100
+   FCP 1.0 s | LCP 1.0 s | TBT 0 ms | CLS 0.005 | SI 1.0 s | weight 159 KB
+   - First Contentful Paint 1.0 s 
+   - Background and foreground colors do not have a sufficient contrast ratio.  [<small> ; <a href="/"> ; <a href="/skincare-guides/">]
+   - Heading elements are not in a sequentially-descending order  [<h4>]
+   - Touch targets do not have sufficient size or spacing.  [<a href="#yfb-buy-dismiss-475">]
+
+== /youth-face-cream-kochi/ [mobile] perf 83 | a11y 96 | best 100 | seo 100
+   FCP 3.5 s | LCP 3.5 s | TBT 0 ms | CLS 0.072 | SI 3.5 s | weight 151 KB
+   - First Contentful Paint 3.5 s 
+   - Largest Contentful Paint 3.5 s 
+   - Speed Index 3.5 s 
+   - Background and foreground colors do not have a sufficient contrast ratio.  [<small> ; <a href="/"> ; <a href="/youth-face-cream-kerala/">]
+
+== /youth-face-cream-kochi/ [desktop] perf 97 | a11y 96 | best 100 | seo 100
+   FCP 1.0 s | LCP 1.0 s | TBT 0 ms | CLS 0.034 | SI 1.0 s | weight 487 KB
+   - First Contentful Paint 1.0 s 
+   - Background and foreground colors do not have a sufficient contrast ratio.  [<small> ; <a href="/"> ; <a href="/youth-face-cream-kerala/">]
+   - Serve images in next-gen formats Potential savings of 302 KiB [https://www.youthfacebeauty.com/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-25g-600]
+   - Properly size images Potential savings of 322 KiB [https://www.youthfacebeauty.com/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-25g-600]
