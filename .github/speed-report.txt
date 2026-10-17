@@ -1,35 +1,30 @@
-Speed test Sat Oct 17 20:01:01 UTC 2026
+Speed test Sat Oct 17 20:03:38 UTC 2026
 
-== / [mobile] perf 79 | a11y 100 | best 100 | seo 100
-   FCP 1.9 s | LCP 1.9 s | TBT 220 ms | CLS 0.307 | weight 303 KB
-   - First Contentful Paint 1.9 s 
-   - Total Blocking Time 220 ms 
-   - Max Potential First Input Delay 280 ms 
-   - Cumulative Layout Shift 0.307 
-   - Minimize main-thread work 2.0 s 
+== / [mobile] perf 94 | a11y 100 | best 100 | seo 100
+   FCP 1.1 s | LCP 1.7 s | TBT 0 ms | CLS 0.139 | weight 302 KB
+   - Cumulative Layout Shift 0.139 
 
-== / [desktop] perf 81 | a11y 100 | best 100 | seo 100
-   FCP 0.4 s | LCP 0.6 s | TBT 0 ms | CLS 0.396 | weight 369 KB
-   - Cumulative Layout Shift 0.396 
+== / [desktop] perf 100 | a11y 100 | best 100 | seo 100
+   FCP 0.5 s | LCP 0.5 s | TBT 0 ms | CLS 0 | weight 369 KB
    - Properly size images Potential savings of 104 KiB [https://www.youthfacebeauty.com/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-skincar ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/ChatGPT-Image-Sep-17-2026-08_27 ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/ChatGPT-Image-Sep-19-2026-01_47]
 
 == /product/youth-face-beauty-cream-25g/ [mobile] perf 99 | a11y 100 | best 100 | seo 100
-   FCP 1.2 s | LCP 1.9 s | TBT 10 ms | CLS 0.002 | weight 270 KB
+   FCP 1.7 s | LCP 1.7 s | TBT 0 ms | CLS 0 | weight 270 KB
    - Properly size images Potential savings of 60 KiB [https://www.youthfacebeauty.com/wp-content/uploads/2026/09/ChatGPT-Image-Sep-19-2026-01_47 ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/youth-face-lid-authentication-s ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/youth-face-jars-boxes-real.webp]
 
 == /product/youth-face-beauty-cream-25g/ [desktop] perf 100 | a11y 100 | best 100 | seo 100
-   FCP 0.6 s | LCP 0.6 s | TBT 0 ms | CLS 0.006 | weight 270 KB
+   FCP 0.5 s | LCP 0.5 s | TBT 0 ms | CLS 0 | weight 270 KB
    - Properly size images Potential savings of 69 KiB [https://www.youthfacebeauty.com/wp-content/uploads/2026/09/ChatGPT-Image-Sep-19-2026-01_47 ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/youth-face-lid-authentication-s ; https://www.youthfacebeauty.com/wp-content/uploads/2026/09/youth-face-jars-studio-shot.web]
 
 == /best-cream-for-dark-spots-in-india-2026-buyers-guide/ [mobile] perf 100 | a11y 100 | best 100 | seo 100
-   FCP 1.2 s | LCP 1.2 s | TBT 0 ms | CLS 0.004 | weight 158 KB
+   FCP 1.1 s | LCP 1.1 s | TBT 0 ms | CLS 0 | weight 158 KB
 
 == /best-cream-for-dark-spots-in-india-2026-buyers-guide/ [desktop] perf 100 | a11y 100 | best 100 | seo 100
-   FCP 0.6 s | LCP 0.6 s | TBT 0 ms | CLS 0.003 | weight 158 KB
+   FCP 0.3 s | LCP 0.3 s | TBT 0 ms | CLS 0 | weight 158 KB
 
-== /youth-face-cream-kochi/ [mobile] perf 99 | a11y 100 | best 100 | seo 100
-   FCP 1.1 s | LCP 1.1 s | TBT 0 ms | CLS 0.072 | weight 151 KB
+== /youth-face-cream-kochi/ [mobile] perf 100 | a11y 100 | best 100 | seo 100
+   FCP 1.1 s | LCP 1.1 s | TBT 0 ms | CLS 0 | weight 151 KB
 
 == /youth-face-cream-kochi/ [desktop] perf 100 | a11y 100 | best 100 | seo 100
-   FCP 0.6 s | LCP 0.6 s | TBT 0 ms | CLS 0.034 | weight 183 KB
+   FCP 0.3 s | LCP 0.3 s | TBT 0 ms | CLS 0 | weight 183 KB
    - Properly size images Potential savings of 30 KiB [https://www.youthfacebeauty.com/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-25g-600]
