@@ -1,0 +1,187 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/cart",
+      "destination": "/checkout/",
+      "permanent": true
+    },
+    {
+      "source": "/cart/",
+      "destination": "/checkout/",
+      "permanent": true
+    },
+    {
+      "source": "/my-account/",
+      "destination": "/track-order/",
+      "permanent": true
+    },
+    {
+      "source": "/feed/",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/my-account/:path*",
+      "destination": "/track-order/",
+      "permanent": true
+    },
+    {
+      "source": "/my-account",
+      "destination": "/track-order/",
+      "permanent": true
+    },
+    {
+      "source": "/sitemap_index.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/wp-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/post-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/page-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/product-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/category-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/product_cat-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/local-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/feed/:path*",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/feed",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/category/:path*",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/tag/:path*",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/author/:path*",
+      "destination": "/about-the-author/",
+      "permanent": true
+    },
+    {
+      "source": "/product-category/:path*",
+      "destination": "/shop/",
+      "permanent": true
+    },
+    {
+      "source": "/product-tag/:path*",
+      "destination": "/shop/",
+      "permanent": true
+    },
+    {
+      "source": "/brand/:path*",
+      "destination": "/shop/",
+      "permanent": true
+    },
+    {
+      "source": "/shop/page/:n",
+      "destination": "/shop/",
+      "permanent": true
+    },
+    {
+      "source": "/page/:n",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/wp-admin/:path*",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/wp-login.php",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/favicon.ico",
+      "destination": "/favicon-48.png",
+      "permanent": true
+    },
+    {
+      "source": "/:slug/amp",
+      "destination": "/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "add-to-cart"
+        }
+      ],
+      "destination": "/checkout/",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/wp-content/:path*",
+      "destination": "https://old.youthfacebeauty.com/wp-content/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/wp-content/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}

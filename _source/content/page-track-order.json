@@ -1,0 +1,15 @@
+{
+  "id": 667,
+  "type": "page",
+  "slug": "track-order",
+  "path": "/track-order/",
+  "title": "Track Order",
+  "seo_title": "Track Your Order – Youth Face Beauty Cream",
+  "seo_description": "Track your Youth Face Beauty Cream order status in real time. Enter your order ID and email to see the latest delivery update.",
+  "focus_keyword": "track youth face order",
+  "date": "2026-09-27 17:39:31",
+  "modified": "2026-09-27 17:39:31",
+  "featured_image": "",
+  "excerpt": "Youth Face Track Your Order Enter your order ID and the billing email or phone number used at checkout to see your order status. [woocommerce_order_tracking] Can't find your order ID? Check your order confirmation email, or message us on WhatsApp: 9980881230 and we'll help you track it.",
+  "content": "<!-- wp:designsetgo/section {\"shapeDividerBottom\":\"inherit\",\"className\":\"is-style-shape-divider is-style-section-1\",\"style\":{\"spacing\":{\"padding\":{\"top\":\"var:preset|spacing|50\",\"bottom\":\"var:preset|spacing|20\",\"left\":\"var:preset|spacing|30\",\"right\":\"var:preset|spacing|30\"},\"blockGap\":\"var:preset|spacing|20\"}}} -->\n<div class=\"wp-block-designsetgo-section alignfull dsgo-stack is-style-shape-divider dsgo-stack--has-shape-divider is-style-section-1\" style=\"padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--20);padding-left:var(--wp--preset--spacing--30)\">\n  <div class=\"dsgo-stack__inner\" style=\"max-width:var(--wp--style--global--content-size, 1140px);margin-left:auto;margin-right:auto\">\n<!-- wp:heading {\"textAlign\":\"center\",\"level\":6} -->\n<h6 class=\"wp-block-heading has-text-align-center\">Youth Face</h6>\n<!-- /wp:heading -->\n<!-- wp:heading {\"textAlign\":\"center\",\"level\":1} -->\n<h1 class=\"wp-block-heading has-text-align-center\">Track Your Order</h1>\n<!-- /wp:heading -->\n<!-- wp:paragraph {\"align\":\"center\"} -->\n<p class=\"has-text-align-center\">Enter your order ID and the billing email or phone number used at checkout to see your order status.</p>\n<!-- /wp:paragraph -->\n  </div>\n  <div class=\"dsgo-shape-divider dsgo-shape-divider--bottom is-shape-inherit is-flip-y\" aria-hidden=\"true\"></div>\n</div>\n<!-- /wp:designsetgo/section -->\n\n<!-- wp:group {\"layout\":{\"type\":\"constrained\",\"contentSize\":\"600px\"}} -->\n<div class=\"wp-block-group\" style=\"padding:20px 20px 50px\">\n<!-- wp:shortcode -->\n[woocommerce_order_tracking]\n<!-- /wp:shortcode -->\n<!-- wp:paragraph {\"align\":\"center\",\"style\":{\"spacing\":{\"margin\":{\"top\":\"var:preset|spacing|30\"}}}} -->\n<p class=\"has-text-align-center\" style=\"margin-top:var(--wp--preset--spacing--30);font-size:0.85em;opacity:0.75\">Can't find your order ID? Check your order confirmation email, or message us on <a href=\"https://wa.me/919980881230\">WhatsApp: 9980881230</a> and we'll help you track it.</p>\n<!-- /wp:paragraph -->\n</div>\n<!-- /wp:group -->"
+}

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /checkout/
+Disallow: /order-success/
+Disallow: /wishlist/
+
+Sitemap: https://youthfacebeauty.com/sitemap.xml
