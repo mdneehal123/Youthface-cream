@@ -53,6 +53,8 @@ jobs:
             echo "$u | $(grep -o '<title>[^<]*' /tmp/p | head -1 | cut -c8-80) | canonical $(grep -o 'rel="canonical" href="[^"]*' /tmp/p | cut -d'"' -f4) | robots $(grep -o 'name="robots" content="[^"]*' /tmp/p | cut -d'"' -f4) | ld $(grep -c 'application/ld+json' /tmp/p)" >> $R
           done
           echo "payment-config: $(curl -s $V $S/api/payment-config/)" >> $R
+          echo "orderdesk web-order (no key): $(curl -s -X POST -H 'Content-Type: application/json' -d '{}' https://skinday.shop/api/web-order)" >> $R
+          echo "cod-order empty test: $(curl -s -X POST -H 'Content-Type: application/json' -d '{"items":[]}' $S/api/cod-order/)" >> $R
           echo "robots.txt:" >> $R; curl -s $V $S/robots.txt >> $R
           echo "sitemap urls: $(curl -s $V $S/sitemap.xml | grep -c '<loc>')" >> $R
           cat $R
