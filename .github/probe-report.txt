@@ -1,0 +1,72 @@
+== https://skinday.shop/
+status 200 final https://www.skinday.shop/login/?next=%2F
+content-type: text/plain
+server: Vercel
+content-type: text/plain
+server: Vercel
+content-type: text/html; charset=utf-8
+server: Vercel
+      1 api/login
+      1 Order Desk
+      1 <title>Sign in · Order Desk
+<!doctype html> <html lang="en-IN"> <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> <meta name="robots" content="noindex, nofollow"> <meta name="theme-color" content="#121214"> <meta name="apple-mobile-web-app-capable" content="yes"> <meta name="mobile-web-app-capable" content="yes"> <meta name="apple-mobile-web-app-status-bar-
+== https://skinday.shop/wp-json/
+status 200 final https://www.skinday.shop/login/?next=%2Fwp-json%2F
+content-type: text/plain
+server: Vercel
+content-type: text/plain
+server: Vercel
+content-type: text/html; charset=utf-8
+server: Vercel
+      1 api/login
+      1 Order Desk
+      1 <title>Sign in · Order Desk
+<!doctype html> <html lang="en-IN"> <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> <meta name="robots" content="noindex, nofollow"> <meta name="theme-color" content="#121214"> <meta name="apple-mobile-web-app-capable" content="yes"> <meta name="mobile-web-app-capable" content="yes"> <meta name="apple-mobile-web-app-status-bar-
+== https://skinday.shop/wp-json/wc/v3/
+status 200 final https://www.skinday.shop/login/?next=%2Fwp-json%2Fwc%2Fv3%2F
+content-type: text/plain
+server: Vercel
+content-type: text/plain
+server: Vercel
+content-type: text/html; charset=utf-8
+server: Vercel
+      1 api/login
+      1 Order Desk
+      1 <title>Sign in · Order Desk
+<!doctype html> <html lang="en-IN"> <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> <meta name="robots" content="noindex, nofollow"> <meta name="theme-color" content="#121214"> <meta name="apple-mobile-web-app-capable" content="yes"> <meta name="mobile-web-app-capable" content="yes"> <meta name="apple-mobile-web-app-status-bar-
+== https://skinday.shop/api/
+status 401 final https://www.skinday.shop/api/
+content-type: text/plain
+server: Vercel
+content-type: application/json
+server: Vercel
+{"ok":false,"error":"login required"}
+== https://skinday.shop/admin
+status 200 final https://www.skinday.shop/login/?next=%2Fadmin
+content-type: text/plain
+server: Vercel
+content-type: text/plain
+server: Vercel
+content-type: text/html; charset=utf-8
+server: Vercel
+      1 api/login
+      1 Order Desk
+      1 <title>Sign in · Order Desk
+<!doctype html> <html lang="en-IN"> <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> <meta name="robots" content="noindex, nofollow"> <meta name="theme-color" content="#121214"> <meta name="apple-mobile-web-app-capable" content="yes"> <meta name="mobile-web-app-capable" content="yes"> <meta name="apple-mobile-web-app-status-bar-
+== https://skinday.shop/login
+status 200 final https://www.skinday.shop/login
+content-type: text/plain
+server: Vercel
+content-type: text/html; charset=utf-8
+server: Vercel
+      1 api/login
+      1 Order Desk
+      1 <title>Sign in · Order Desk
+<!doctype html> <html lang="en-IN"> <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> <meta name="robots" content="noindex, nofollow"> <meta name="theme-color" content="#121214"> <meta name="apple-mobile-web-app-capable" content="yes"> <meta name="mobile-web-app-capable" content="yes"> <meta name="apple-mobile-web-app-status-bar-
+== https://skinday.shop/robots.txt
+status 200 final https://www.skinday.shop/robots.txt
+content-type: text/plain
+server: Vercel
+content-type: text/plain; charset=utf-8
+server: Vercel
+User-agent: * Disallow: / 
