@@ -52,6 +52,7 @@ jobs:
             curl -s $V "$S$u" > /tmp/p
             echo "$u | $(grep -o '<title>[^<]*' /tmp/p | head -1 | cut -c8-80) | canonical $(grep -o 'rel="canonical" href="[^"]*' /tmp/p | cut -d'"' -f4) | robots $(grep -o 'name="robots" content="[^"]*' /tmp/p | cut -d'"' -f4) | ld $(grep -c 'application/ld+json' /tmp/p)" >> $R
           done
+          echo "payment-config: $(curl -s $V $S/api/payment-config/)" >> $R
           echo "robots.txt:" >> $R; curl -s $V $S/robots.txt >> $R
           echo "sitemap urls: $(curl -s $V $S/sitemap.xml | grep -c '<loc>')" >> $R
           cat $R
