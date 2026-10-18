@@ -24,7 +24,7 @@ Prices for online payment live in `api/_pricing.js` — keep them the same as `P
 - **COD:** `api/cod-order` checks the pin code with Delhivery, then books the shipment and shows the customer the AWB.
   Vercel env: `DELHIVERY_TOKEN`, `DELHIVERY_PICKUP` (warehouse name exactly as in Delhivery), optional `DELHIVERY_GRAMS_PER_JAR` (default 100), `DELHIVERY_MODE` (Surface/Express).
 - **Paid online:** after Razorpay verification the order goes to the Order Desk inbox, marked Paid.
-  Vercel env: `WEB_ORDER_KEY` (same long random value as in the Order Desk project), optional `ORDERDESK_URL` (default https://skinday.shop).
+  Vercel env: `WEB_ORDER_KEY` (same long random value as in the Order Desk project), optional `ORDERDESK_URL` (default https://www.skinday.shop).
 - If Delhivery can't book a COD order, it goes to the Order Desk with a warning so it is never lost.
 
 ## 2. Order backup to Google Sheet (5 minutes)

@@ -1,6 +1,6 @@
 // Sends a website order into the Order Desk inbox (server to server, protected by WEB_ORDER_KEY).
 const { DESK_ID } = require("./_pricing");
-const deskUrl = () => (process.env.ORDERDESK_URL || "https://skinday.shop").replace(/\/+$/, "");
+const deskUrl = () => (process.env.ORDERDESK_URL || "https://www.skinday.shop").replace(/\/+$/, "");
 const deskOn = () => Boolean(process.env.WEB_ORDER_KEY);
 
 async function pushToDesk({ ref, c, q, pay, paid, payId, courier, awb, note }) {
