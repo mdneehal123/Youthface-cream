@@ -57,6 +57,7 @@ jobs:
           echo "orderdesk web-order (no key, follow): $(curl -sL -X POST -H 'Content-Type: application/json' -d '{}' https://skinday.shop/api/web-order)" >> $R
           echo "orderdesk-chi web-order (no key): $(curl -s -X POST -H 'Content-Type: application/json' -d '{}' https://orderdesk-chi.vercel.app/api/web-order)" >> $R
           echo "cod-order empty test: $(curl -s -X POST -H 'Content-Type: application/json' -d '{"items":[]}' $S/api/cod-order/)" >> $R
+          echo "delhivery-check: $(curl -s $S/api/delhivery-check/)" >> $R
           echo "robots.txt:" >> $R; curl -s $V $S/robots.txt >> $R
           echo "sitemap urls: $(curl -s $V $S/sitemap.xml | grep -c '<loc>')" >> $R
           cat $R

@@ -1,5 +1,5 @@
 // POST /api/cod-order — Cash on Delivery: prices the order on the server and books it with Delhivery.
-// If Delhivery can't take it, the order is sent to the Order Desk instead, so it is never lost.
+// Every COD order is also saved in the Order Desk (customer record); the label is printed from Delhivery.
 const { price } = require("./_pricing");
 const { customer } = require("./_shared");
 const { delhiveryOn, serviceable, createShipment } = require("./_delhivery");
@@ -20,7 +20,11 @@ module.exports = async (req, res) => {
   } catch (e) { /* if the check fails, still try to book */ }
   let d;
   try { d = await createShipment({ ref, c, q, pay: "cod" }); } catch (e) { d = { ok: false, error: String(e.message || e) }; }
-  if (d.ok) return send(res, 200, { ok: true, ref, awb: d.awb, courier: "Delhivery", total: q.total, trackUrl: "https://www.delhivery.com/track/package/" + d.awb });
-  const desk = await pushToDesk({ ref, c, q, pay: "cod", paid: false, note: "⚠ COD website order — Delhivery booking failed: " + d.error + ". Please book it manually." });
+  // Every COD order is also saved in the Order Desk as a customer record.
+  // Booked: courier Delhivery + AWB, label printed from the Delhivery panel. Not booked: flagged for manual booking.
+  const desk = await pushToDesk(d.ok
+    ? { ref, c, q, pay: "cod", paid: false, courier: "Delhivery", awb: d.awb, note: `COD booked with Delhivery · AWB ${d.awb} · print the label from the Delhivery panel` }
+    : { ref, c, q, pay: "cod", paid: false, note: "⚠ COD website order — Delhivery booking failed: " + d.error + ". Please book it in Delhivery." });
+  if (d.ok) return send(res, 200, { ok: true, ref, awb: d.awb, courier: "Delhivery", total: q.total, savedToDesk: desk.ok, trackUrl: "https://www.delhivery.com/track/package/" + d.awb });
   return send(res, 200, { ok: true, ref, awb: "", courier: "", total: q.total, pending: true, savedToDesk: desk.ok });
 };
