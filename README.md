@@ -15,6 +15,11 @@ All store settings are in `_source/index.html` → `const CONFIG` (top of the sc
 | `deliveryDays` | e.g. `{metro:[2,4], other:[4,7]}`. When filled, the pin-code checker shows delivery dates. Empty = no dates promised. |
 | `codFee`, `prepaidDiscountPct`, `coupons`, `rewards` | Offers. Currently: no COD charge, 5% off online, WELCOME10, GLOW100, ₹50 off at ₹999, ₹150 off at ₹1,444. |
 
+## Online payment (Razorpay)
+Server code in `api/` creates Razorpay orders (amount calculated on the server) and verifies every payment signature.
+To switch it on: Vercel → Settings → Environment Variables → add `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET` (Production) → Redeploy.
+Prices for online payment live in `api/_pricing.js` — keep them the same as `PRODUCTS`/`CONFIG` in `_source/index.html`.
+
 ## 2. Order backup to Google Sheet (5 minutes)
 1. Create a Google Sheet called "Youth Face Orders".
 2. Extensions → Apps Script → paste `_source/google-sheet-orders.gs` → Save.

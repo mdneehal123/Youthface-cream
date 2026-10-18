@@ -938,7 +938,7 @@ function totals(){
   const total = Math.round(afterCoupon-prepaid+ship+cod);
   return {sub,mrp,coup:Math.round(coup),reward,rewardLabel:rw?rw.label:"",prepaid:Math.round(prepaid),ship,cod,total,saved:Math.round(mrp-sub+coup+reward+prepaid)};
 }
-function renderCheckout(){ if(cart.length) track("begin_checkout",{currency:"INR", value:subtotal()});
+function renderCheckout(){ if(cart.length) track("begin_checkout",{currency:"INR", value:subtotal()}); loadPayConfig().then(()=>{ const sm=document.querySelector('.payopt input[value=online] + div small'); if(sm && PAY.enabled) sm.textContent="UPI · Cards · Net banking · Wallets — secure Razorpay checkout"; });
   if(!cart.length){ $("#view").innerHTML=`<div class="done"><h1>Your cart is empty</h1><p style="color:var(--muted)">Add a pack to start checkout.</p><button class="btn btn-pink" data-go="home">Go to shop</button></div>`; return }
   const f=(id,label,attrs="",val="")=>`<div class="field" id="f-${id}"><label for="${id}">${label}</label><input id="${id}" name="${id}" value="${esc(val)}" ${attrs}><span class="err"></span></div>`;
   $("#view").innerHTML = `<div class="co">
@@ -988,7 +988,7 @@ function renderCheckout(){ if(cart.length) track("begin_checkout",{currency:"INR
       </div>
     </div>
   </div>
-  <div class="placebar"><div class="wrap"><div class="amt tnum" id="barAmt"></div><button class="btn btn-pink" type="submit" id="placeBtn">Place order</button></div></div>
+  <div class="placebar"><div class="wrap"><div class="amt tnum" id="barAmt"></div><button class="btn btn-pink" type="submit" id="placeBtn">Place order</button></div><div class="wrap"><div class="msg no" id="payMsg" hidden role="alert"></div></div></div>
   </form></div>`;
 
   const form=$("#coForm");
@@ -1053,19 +1053,65 @@ function stepMarks(){
   const c=/^[6-9]\d{9}$/.test(co.phone), a=co.name.length>1&&/^\d{6}$/.test(co.pin)&&co.city&&co.address.length>7&&co.state;
   const n1=$("#n1"),n2=$("#n2"); if(n1){n1.className="num"+(c?" done":"");n1.textContent=c?"✓":"1"} if(n2){n2.className="num"+(a?" done":"");n2.textContent=a?"✓":"2"}
 }
-function placeOrder(e){
+/* ---------- online payment (Razorpay) — switches on when keys are set in Vercel ---------- */
+let PAY = {enabled:false, keyId:""};
+function loadPayConfig(){
+  if(!PATH_MODE || PAY.checked) return Promise.resolve(PAY);
+  return fetch("/api/payment-config/").then(r=>r.json()).then(j=>{ PAY={...j, checked:true}; return PAY }).catch(()=>{ PAY={enabled:false, checked:true}; return PAY });
+}
+function loadRazorpay(){
+  if(window.Razorpay) return Promise.resolve();
+  return new Promise((ok,fail)=>{ const sc=document.createElement("script"); sc.src="https://checkout.razorpay.com/v1/checkout.js"; sc.onload=ok; sc.onerror=()=>fail(new Error("Could not load the payment window. Check your internet and try again.")); document.head.appendChild(sc) });
+}
+function payMsg(text){ const m=$("#payMsg"); if(m){ m.textContent=text; m.hidden=!text } }
+async function payOnline(order){
+  const btn=$("#placeBtn"); const label=btn.textContent; btn.disabled=true; btn.textContent="Opening secure payment…"; payMsg("");
+  try{
+    await loadRazorpay();
+    const r=await fetch("/api/create-order/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items:cart.map(l=>({id:l.id,qty:l.qty})),coupon:couponApplied,ref:order.id})});
+    const j=await r.json(); if(!r.ok) throw new Error(j.error||"Could not start the payment.");
+    order.t.total=j.total;
+    return await new Promise((resolve,reject)=>{
+      const rzp=new Razorpay({ key:j.keyId, order_id:j.orderId, amount:j.amount, currency:"INR", name:"Youth Face", description:"Order "+order.id,
+        image:"/logo.png", prefill:{name:order.co.name, contact:"+91"+order.co.phone, email:order.co.email||""}, notes:{ref:order.id}, theme:{color:"#c4385a"},
+        modal:{ ondismiss:()=>reject(new Error("Payment was cancelled. You can try again or choose Cash on Delivery.")) },
+        handler: async (resp)=>{
+          try{
+            const v=await fetch("/api/verify-payment/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(resp)}); const vj=await v.json();
+            if(!vj.ok) return reject(new Error(vj.error||"We couldn't confirm the payment. If money was deducted, message us on WhatsApp with order "+order.id+"."));
+            resolve({paymentId:resp.razorpay_payment_id, amount:vj.amount, method:vj.method});
+          }catch(e){ reject(new Error("We couldn't confirm the payment. If money was deducted, message us on WhatsApp with order "+order.id+".")) }
+        }});
+      rzp.on("payment.failed",ev=>{ payMsg((ev.error&&ev.error.description)||"Payment failed. Please try again.") });
+      rzp.open();
+    });
+  } finally { btn.disabled=false; btn.textContent=label }
+}
+async function placeOrder(e){
   e.preventDefault(); if(!validate()) return;
   const t=totals(); const id="YF"+Date.now().toString().slice(-7);
   const order={id, items:cart.map(l=>({...byId(l.id),qty:l.qty})), co:{...co}, t, coupon:couponApplied, at:new Date().toISOString()};
-  store.set("yf_last",order);
+  if(co.pay==="online"){
+    await loadPayConfig();
+    if(PAY.enabled){
+      try{ order.paid = await payOnline(order) }
+      catch(err){ payMsg(err.message); return }
+    }
+  }
+  finishOrder(order);
+}
+function finishOrder(order){
+  const t=order.t, id=order.id;
   const lines = order.items.map(i=>`• ${i.name} (${i.size}) × ${i.qty} = ${rs(i.price*i.qty)}`).join("\n");
-  const msg = `New order ${id}\n\n${lines}\n\nSubtotal: ${rs(t.sub)}${t.coup?`\nCoupon ${couponApplied}: -${rs(t.coup)}`:""}${t.reward?`\nCart reward: -${rs(t.reward)}`:""}${t.prepaid?`\nOnline discount: -${rs(t.prepaid)}`:""}${t.cod?`\nCOD charge: ${rs(t.cod)}`:""}\nTotal: ${rs(t.total)}\nPayment: ${co.pay==="cod"?"Cash on Delivery":"Online (UPI/Card)"}\n\nName: ${co.name}\nPhone: +91 ${co.phone}${co.email?`\nEmail: ${co.email}`:""}\nAddress: ${co.address}${co.landmark?`, near ${co.landmark}`:""}, ${co.city}, ${co.state} - ${co.pin}`;
+  const payLine = order.paid ? `PAID ONLINE ✅ ${rs(order.paid.amount)} (Razorpay ${order.paid.paymentId})` : (co.pay==="cod"?"Cash on Delivery":"Online (send payment link)");
+  const msg = `New order ${id}\n\n${lines}\n\nSubtotal: ${rs(t.sub)}${t.coup?`\nCoupon ${couponApplied}: -${rs(t.coup)}`:""}${t.reward?`\nCart reward: -${rs(t.reward)}`:""}${t.prepaid?`\nOnline discount: -${rs(t.prepaid)}`:""}${t.cod?`\nCOD charge: ${rs(t.cod)}`:""}\nTotal: ${rs(t.total)}\nPayment: ${payLine}\n\nName: ${co.name}\nPhone: +91 ${co.phone}${co.email?`\nEmail: ${co.email}`:""}\nAddress: ${co.address}${co.landmark?`, near ${co.landmark}`:""}, ${co.city}, ${co.state} - ${co.pin}`;
   order.waLink = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
   if(CONFIG.orderWebhook){
     order.saved = true;
     try{ fetch(CONFIG.orderWebhook,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},
       body:JSON.stringify({id, at:order.at, name:co.name, phone:co.phone, email:co.email, address:co.address, landmark:co.landmark, city:co.city, state:co.state, pin:co.pin,
-        items:lines.replace(/• /g,""), subtotal:t.sub, coupon:couponApplied, discount:t.coup+t.reward+t.prepaid, cod:t.cod, total:t.total, payment:co.pay==="cod"?"COD":"Online", page:location.href})}) }catch(e){}
+        items:lines.replace(/• /g,""), subtotal:t.sub, coupon:couponApplied, discount:t.coup+t.reward+t.prepaid, cod:t.cod, total:t.total,
+        payment: order.paid ? ("PAID "+order.paid.paymentId) : (co.pay==="cod"?"COD":"Online - link pending"), page:location.href})}) }catch(e){}
   }
   track("purchase",{transaction_id:id, value:t.total, currency:"INR", items:order.items.map(i=>({item_id:i.sku, item_name:i.name+" "+i.size, price:i.price, quantity:i.qty}))});
   store.set("yf_last",order);
@@ -1075,12 +1121,13 @@ function placeOrder(e){
 function renderSuccess(){
   const o=store.get("yf_last",null);
   if(!o){go("home");return}
-  const upi = CONFIG.upiId && o.co.pay==="online" ? `upi://pay?pa=${encodeURIComponent(CONFIG.upiId)}&pn=Youth%20Face&am=${o.t.total}&cu=INR&tn=${o.id}` : "";
-  const payLink = CONFIG.paymentLink && o.co.pay==="online" ? CONFIG.paymentLink : "";
+  const upi = CONFIG.upiId && o.co.pay==="online" && !o.paid ? `upi://pay?pa=${encodeURIComponent(CONFIG.upiId)}&pn=Youth%20Face&am=${o.t.total}&cu=INR&tn=${o.id}` : "";
+  const payLink = CONFIG.paymentLink && o.co.pay==="online" && !o.paid ? CONFIG.paymentLink : "";
   $("#view").innerHTML=`<div class="wrap"><div class="done">
     <div class="tick">✓</div>
-    <h1>Almost done, ${esc(o.co.name.split(" ")[0])}!</h1>
-    <p style="color:var(--muted)">Order <span class="oid">${o.id}</span> is ready. ${o.saved?"We've received it. ":""}Tap below to send it on WhatsApp so we can confirm and ship it${o.co.pay==="online"?(payLink||upi?". Then complete your payment below.":". We'll reply with a secure payment link for "+rs(o.t.total)+"."):"."}</p>
+    <h1>${o.paid?"Payment received, ":"Almost done, "}${esc(o.co.name.split(" ")[0])}!</h1>
+    ${o.paid?`<div class="youSave" style="margin:8px 0">✓ ${rs(o.paid.amount)} paid online · Payment ID ${esc(o.paid.paymentId)}</div>`:""}
+    <p style="color:var(--muted)">Order <span class="oid">${o.id}</span> is ready. ${o.saved?"We've received it. ":""}Tap below to send it on WhatsApp so we can confirm and ship it${o.paid?".":o.co.pay==="online"?(payLink||upi?". Then complete your payment below.":". We'll reply with a secure payment link for "+rs(o.t.total)+"."):"."}</p>
     <div style="display:grid;gap:10px;margin-top:18px">
       <a class="btn btn-pink btn-block" href="${o.waLink}" target="_blank" rel="noopener">Confirm order on WhatsApp</a>
       ${payLink?`<a class="btn btn-line btn-block" href="${esc(payLink)}" target="_blank" rel="noopener">Pay ${rs(o.t.total)} now</a><div style="font-size:13px;color:var(--muted)">Enter order ID ${o.id} in the payment notes.</div>`:""}
@@ -1089,7 +1136,7 @@ function renderSuccess(){
     <div class="panel">
       <h3>Order ${o.id}</h3>
       ${o.items.map(i=>`<div style="display:flex;justify-content:space-between;gap:10px;font-size:14px;padding-block:4px"><span>${esc(i.name)} · ${esc(i.size)} × ${i.qty}</span><b class="tnum">${rs(i.price*i.qty)}</b></div>`).join("")}
-      <div class="totals tnum"><div class="grand"><span>${o.co.pay==="cod"?"Pay on delivery":"To pay online"}</span><span>${rs(o.t.total)}</span></div></div>
+      <div class="totals tnum"><div class="grand"><span>${o.paid?"Paid":o.co.pay==="cod"?"Pay on delivery":"To pay online"}</span><span>${rs(o.t.total)}</span></div></div>
       <p style="font-size:13.5px;color:var(--muted);margin:12px 0 0">Delivering to ${esc(o.co.address)}, ${esc(o.co.city)}, ${esc(o.co.state)} ${esc(o.co.pin)} · +91 ${esc(o.co.phone)}</p>
     </div>
     <button class="btn btn-line" style="margin-top:16px" data-go="home">Continue shopping</button>

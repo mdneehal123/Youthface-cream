@@ -915,6 +915,8 @@ def main():
         ],
     }
     json.dump(vercel, open(os.path.join(DIST, "vercel.json"), "w"), indent=2)
+    if os.path.isdir(os.path.join(ROOT, "api")):
+        shutil.copytree(os.path.join(ROOT, "api"), os.path.join(DIST, "api"), dirs_exist_ok=True)
     for f in glob.glob(os.path.join(ROOT, "static", "*")):
         if os.path.isdir(f):
             shutil.copytree(f, os.path.join(DIST, os.path.basename(f)), dirs_exist_ok=True)
