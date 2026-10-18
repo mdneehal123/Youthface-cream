@@ -1,0 +1,23 @@
+name: Probe order desk
+on:
+  push:
+    paths: [".github/workflows/probe.yml"]
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          R=.github/probe-report.txt; : > $R
+          for u in https://skinday.shop/ https://skinday.shop/wp-json/ https://skinday.shop/wp-json/wc/v3/ https://skinday.shop/api/ https://skinday.shop/admin https://skinday.shop/login https://skinday.shop/robots.txt; do
+            echo "== $u" >> $R
+            curl -sL --max-time 20 -o /tmp/b -D /tmp/h -w "status %{http_code} final %{url_effective}\n" "$u" >> $R
+            grep -iE "^(server|x-powered-by|x-shopify|x-vercel|set-cookie|content-type|link):" /tmp/h | cut -c1-160 >> $R
+            grep -oiE "<title>[^<]{0,120}|<meta name=\"generator\"[^>]{0,120}|wp-content|woocommerce|shopify|next\.js|__NEXT_DATA__|laravel|order ?desk|supabase|firebase|api[a-z/._-]{0,40}" /tmp/b | sort | uniq -c | sort -rn | head -12 >> $R
+            head -c 400 /tmp/b | tr '\n' ' ' >> $R; echo >> $R
+          done
+      - run: |
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull -q --rebase || true; git add .github/probe-report.txt; git commit -m "Order desk probe [skip ci]" && git push
