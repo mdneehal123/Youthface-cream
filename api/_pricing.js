@@ -6,6 +6,9 @@ const PRODUCTS = {
   "cream-3": { name: "Youth Face Beauty Cream Pack of 3", price: 1444 },
   "lotion":  { name: "Youth Face Body Lotion 40 ml", price: 599 },
 };
+// Order Desk product IDs and jars per pack (for parcel weight)
+const DESK_ID = { "cream-1": "yf1", "cream-2": "yf2", "cream-3": "yf3", "lotion": "yf4" };
+const UNITS = { "cream-1": 1, "cream-2": 2, "cream-3": 3, "lotion": 1 };
 const COUPONS = {
   WELCOME10: { type: "pct", value: 10, min: 0 },
   GLOW100: { type: "flat", value: 100, min: 999 },
@@ -14,7 +17,7 @@ const REWARDS = [{ at: 999, off: 50 }, { at: 1444, off: 150 }];
 const PREPAID_PCT = 5;
 const SHIPPING = 0;
 
-function price(items, couponCode) {
+function price(items, couponCode, mode = "online") {
   if (!Array.isArray(items) || !items.length || items.length > 10) throw new Error("Your cart is empty.");
   const lines = items.map(l => {
     const p = PRODUCTS[l && l.id];
@@ -30,8 +33,8 @@ function price(items, couponCode) {
   let reward = 0;
   REWARDS.forEach(r => { if (sub >= r.at) reward = r.off; });
   const after = sub - coup - reward;
-  const prepaid = (after * PREPAID_PCT) / 100;
+  const prepaid = mode === "online" ? (after * PREPAID_PCT) / 100 : 0;
   const total = Math.round(after - prepaid + SHIPPING);
-  return { lines, sub, coupon: coup ? code : "", discount: Math.round(coup) + reward + Math.round(prepaid), total };
+  return { lines, sub, coupon: coup ? code : "", discount: Math.round(coup) + reward + Math.round(prepaid), total, units: lines.reduce((a, l) => a + l.qty * (UNITS[l.id] || 1), 0) };
 }
-module.exports = { price };
+module.exports = { price, DESK_ID };

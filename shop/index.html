@@ -1075,9 +1075,9 @@ async function payOnline(order){
         modal:{ ondismiss:()=>reject(new Error("Payment was cancelled. You can try again or choose Cash on Delivery.")) },
         handler: async (resp)=>{
           try{
-            const v=await fetch("/api/verify-payment/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(resp)}); const vj=await v.json();
+            const v=await fetch("/api/verify-payment/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...resp, ref:order.id, items:cart.map(l=>({id:l.id,qty:l.qty})), coupon:couponApplied, customer:custPayload()})}); const vj=await v.json();
             if(!vj.ok) return reject(new Error(vj.error||"We couldn't confirm the payment. If money was deducted, message us on WhatsApp with order "+order.id+"."));
-            resolve({paymentId:resp.razorpay_payment_id, amount:vj.amount, method:vj.method});
+            resolve({paymentId:resp.razorpay_payment_id, amount:vj.amount, method:vj.method, savedToDesk:vj.savedToDesk});
           }catch(e){ reject(new Error("We couldn't confirm the payment. If money was deducted, message us on WhatsApp with order "+order.id+".")) }
         }});
       rzp.on("payment.failed",ev=>{ payMsg((ev.error&&ev.error.description)||"Payment failed. Please try again.") });
@@ -1085,23 +1085,35 @@ async function payOnline(order){
     });
   } finally { btn.disabled=false; btn.textContent=label }
 }
+function custPayload(){ return {name:co.name, phone:co.phone, email:co.email, address:co.address, landmark:co.landmark, city:co.city, state:co.state, pin:co.pin} }
+async function bookCod(order){
+  const btn=$("#placeBtn"); const label=btn.textContent; btn.disabled=true; btn.textContent="Placing your order…"; payMsg("");
+  try{
+    const r=await fetch("/api/cod-order/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ref:order.id, items:cart.map(l=>({id:l.id,qty:l.qty})), coupon:couponApplied, customer:custPayload()})});
+    const j=await r.json();
+    if(!r.ok){ const err=new Error(j.error||"Could not place the order."); err.codUnavailable=j.codUnavailable; throw err }
+    return j;
+  } finally { btn.disabled=false; btn.textContent=label }
+}
 async function placeOrder(e){
   e.preventDefault(); if(!validate()) return;
   const t=totals(); const id="YF"+Date.now().toString().slice(-7);
   const order={id, items:cart.map(l=>({...byId(l.id),qty:l.qty})), co:{...co}, t, coupon:couponApplied, at:new Date().toISOString()};
-  if(co.pay==="online"){
-    await loadPayConfig();
-    if(PAY.enabled){
-      try{ order.paid = await payOnline(order) }
-      catch(err){ payMsg(err.message); return }
-    }
+  await loadPayConfig();
+  if(co.pay==="online" && PAY.enabled){
+    try{ const pd = await payOnline(order); order.paid = pd; order.savedToDesk = pd.savedToDesk }
+    catch(err){ payMsg(err.message); return }
+  }
+  if(co.pay==="cod" && PAY.cod){
+    try{ const j = await bookCod(order); order.ship = j; order.t.total = j.total }
+    catch(err){ payMsg(err.message + (err.codUnavailable?"":" You can also order on WhatsApp.")); if(!err.codUnavailable) finishOrder(order); return }
   }
   finishOrder(order);
 }
 function finishOrder(order){
   const t=order.t, id=order.id;
   const lines = order.items.map(i=>`• ${i.name} (${i.size}) × ${i.qty} = ${rs(i.price*i.qty)}`).join("\n");
-  const payLine = order.paid ? `PAID ONLINE ✅ ${rs(order.paid.amount)} (Razorpay ${order.paid.paymentId})` : (co.pay==="cod"?"Cash on Delivery":"Online (send payment link)");
+  const payLine = order.paid ? `PAID ONLINE ✅ ${rs(order.paid.amount)} (Razorpay ${order.paid.paymentId})` : (co.pay==="cod" ? ("Cash on Delivery" + (order.ship && order.ship.awb ? ` · Delhivery AWB ${order.ship.awb}` : "")) : "Online (send payment link)");
   const msg = `New order ${id}\n\n${lines}\n\nSubtotal: ${rs(t.sub)}${t.coup?`\nCoupon ${couponApplied}: -${rs(t.coup)}`:""}${t.reward?`\nCart reward: -${rs(t.reward)}`:""}${t.prepaid?`\nOnline discount: -${rs(t.prepaid)}`:""}${t.cod?`\nCOD charge: ${rs(t.cod)}`:""}\nTotal: ${rs(t.total)}\nPayment: ${payLine}\n\nName: ${co.name}\nPhone: +91 ${co.phone}${co.email?`\nEmail: ${co.email}`:""}\nAddress: ${co.address}${co.landmark?`, near ${co.landmark}`:""}, ${co.city}, ${co.state} - ${co.pin}`;
   order.waLink = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
   if(CONFIG.orderWebhook){
@@ -1123,11 +1135,12 @@ function renderSuccess(){
   const payLink = CONFIG.paymentLink && o.co.pay==="online" && !o.paid ? CONFIG.paymentLink : "";
   $("#view").innerHTML=`<div class="wrap"><div class="done">
     <div class="tick">✓</div>
-    <h1>${o.paid?"Payment received, ":"Almost done, "}${esc(o.co.name.split(" ")[0])}!</h1>
+    <h1>${o.paid?"Payment received, ":(o.ship&&o.ship.ok)?"Order placed, ":"Almost done, "}${esc(o.co.name.split(" ")[0])}!</h1>
     ${o.paid?`<div class="youSave" style="margin:8px 0">✓ ${rs(o.paid.amount)} paid online · Payment ID ${esc(o.paid.paymentId)}</div>`:""}
-    <p style="color:var(--muted)">Order <span class="oid">${o.id}</span> is ready. ${o.saved?"We've received it. ":""}Tap below to send it on WhatsApp so we can confirm and ship it${o.paid?".":o.co.pay==="online"?(payLink||upi?". Then complete your payment below.":". We'll reply with a secure payment link for "+rs(o.t.total)+"."):"."}</p>
+    ${o.ship&&o.ship.awb?`<div class="youSave" style="margin:8px 0">✓ Order booked with Delhivery · Tracking no. <b>${esc(o.ship.awb)}</b> · <a href="${esc(o.ship.trackUrl)}" target="_blank" rel="noopener">Track</a></div>`:""}
+    <p style="color:var(--muted)">Order <span class="oid">${o.id}</span> is ready. ${o.saved?"We've received it. ":""}${(o.paid||(o.ship&&o.ship.ok))?"Tap below to send us a copy on WhatsApp if you have any questions.":"Tap below to send it on WhatsApp so we can confirm and ship it"}${(o.paid||(o.ship&&o.ship.ok))?"":o.co.pay==="online"?(payLink||upi?". Then complete your payment below.":". We'll reply with a secure payment link for "+rs(o.t.total)+"."):"."}</p>
     <div style="display:grid;gap:10px;margin-top:18px">
-      <a class="btn btn-pink btn-block" href="${o.waLink}" target="_blank" rel="noopener">Confirm order on WhatsApp</a>
+      <a class="btn btn-pink btn-block" href="${o.waLink}" target="_blank" rel="noopener">${(o.paid||(o.ship&&o.ship.ok))?"Send order details on WhatsApp":"Confirm order on WhatsApp"}</a>
       ${payLink?`<a class="btn btn-line btn-block" href="${esc(payLink)}" target="_blank" rel="noopener">Pay ${rs(o.t.total)} now</a><div style="font-size:13px;color:var(--muted)">Enter order ID ${o.id} in the payment notes.</div>`:""}
       ${upi?`<a class="btn btn-line btn-block" href="${upi}">Pay ${rs(o.t.total)} by UPI</a><div style="font-size:13px;color:var(--muted)">UPI ID: <span style="user-select:all">${esc(CONFIG.upiId)}</span></div>`:""}
     </div>
