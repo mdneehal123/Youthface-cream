@@ -1,12 +1,12 @@
-(checks below use the main domain) run Sat Oct 17 20:28:30 UTC 2026 www is primary
+(checks below use the main domain) run Sun Oct 18 04:40:17 UTC 2026 www is primary
 apex https via Vercel: * ALPN: curl offers h2,http/1.1 *  CAfile: /etc/ssl/certs/ca-certificates.crt *  CApath: /etc/ssl/certs * SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256 / X25519 / RSASSA-PSS 
 DNS @    : 216.198.79.1 
-DNS www  : 4ce7e341e40c7114.vercel-dns-017.com. 216.198.79.65 64.29.17.65 
+DNS www  : 4ce7e341e40c7114.vercel-dns-017.com. 216.198.79.1 64.29.17.1 
 DNS TXT  : "v=spf1 include:secureserver.net -all" "google-site-verification=CUCKzAwX0QpgN9ntR1HKxMjwp7u0wgm0n50vmqDsHRk" 
 DNS MX   : 10 mailstore1.secureserver.net. 0 smtp.secureserver.net. 
 http->https: HTTP/1.0 308 Permanent Redirect Location: https://youthfacebeauty.com/ 
 www      : HTTP/2 200  
-home server: server: Vercel x-vercel-id: sfo1::qcfjx-1792268911656-16b71b4ec9fa 
+home server: server: Vercel x-vercel-id: cle1::2jdlt-1792298418676-6d3313fa865a 
 == pages (non-200 only) ==
 OLD-WORDPRESS /
 OLD-WORDPRESS /checkout/
@@ -38,6 +38,7 @@ MISSING /wp-content/uploads/2026/09/
 /product/youth-face-beauty-cream-25g/ | Youth Face Beauty Cream 25g – Pack of 1 | ₹549 | canonical https://www.youthfacebeauty.com/product/youth-face-beauty-cream-25g/ | robots index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1 | ld 3
 /youth-face-cream-kochi/ | Youth Face Cream in Kochi (Ernakulam) – ₹549, COD Available | canonical https://www.youthfacebeauty.com/youth-face-cream-kochi/ | robots index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1 | ld 3
 /kojic-acid-dark-spots-guide/ | Kojic Acid for Dark Spots &amp; Uneven Skin: Complete Guide | canonical https://www.youthfacebeauty.com/kojic-acid-for-dark-spots-how-it-works-how-to-use-it-what-to-know/ | robots index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1 | ld 2
+payment-config: {"enabled":false,"keyId":""}
 robots.txt:
 # Search engines and AI assistants are welcome to read and cite this site.
 User-agent: Googlebot
