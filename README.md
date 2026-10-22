@@ -25,6 +25,8 @@ Prices for online payment live in `api/_pricing.js` — keep them the same as `P
   Vercel env: `DELHIVERY_TOKEN`, `DELHIVERY_PICKUP` (warehouse name exactly as in Delhivery), optional `DELHIVERY_GRAMS_PER_JAR` (default 100), `DELHIVERY_MODE` (Surface/Express).
 - **Paid online:** after Razorpay verification the order goes to the Order Desk inbox, marked Paid.
   Vercel env: `WEB_ORDER_KEY` (same long random value as in the Order Desk project), optional `ORDERDESK_URL` (default https://www.skinday.shop).
+- **Checkout leads:** if a shopper ticks the WhatsApp consent box at checkout, `api/lead` sends their name, mobile number and cart to the Order Desk (same `WEB_ORDER_KEY`) so the owner can message them on WhatsApp later. Nothing is sent unless the box is ticked.
+- Vercel Hobby allows 12 functions; `api/` now has 6 (`cod-order`, `create-order`, `delhivery-check`, `lead`, `payment-config`, `verify-payment`) — files starting with `_` are helpers, not functions.
 - If Delhivery can't book a COD order, it goes to the Order Desk with a warning so it is never lost.
 
 ## 2. Order backup to Google Sheet (5 minutes)

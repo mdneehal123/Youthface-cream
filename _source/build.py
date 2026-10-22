@@ -46,7 +46,7 @@ HOW_ORDERS_WORK = (
     '<p>When you place an order, the details you enter at checkout (name, phone number, email if given, delivery address, items and payment choice) are prepared as a message that you send to us on WhatsApp at +91 99808 81230. '
     'We use these details to confirm, pack, ship and support your order. If you choose to pay online, we send you a secure payment link from our payment partner. We do not see or store your card or UPI PIN.</p>'
     '<p>We may also keep a record of each order in a private order sheet so that no order is missed. Only Youth Face staff can access it.</p>'
-    '<h2>Information stored in your browser</h2>'
+    '<h2>WhatsApp messages (optional)</h2><p>If you tick the box at checkout, we keep your mobile number and name so we can message you on WhatsApp about your order and related offers. You can ask us to stop at any time by messaging us on WhatsApp, and we will remove you.</p><h2>Information stored in your browser</h2>'
     '<p>Our website saves your cart, wishlist and checkout details in your own browser (local storage) so you don\'t lose them if you leave the page. This information stays on your device. You can clear it at any time by clearing your browser data.</p>'
     '<h2>Analytics</h2><p>We may use tools such as Google Analytics and the Meta Pixel to understand how visitors use our website, for example which pages are viewed and when an order is placed. These tools may use cookies. You can block cookies in your browser settings.</p>')
 GRIEVANCE_HTML = lambda: (

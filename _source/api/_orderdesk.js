@@ -19,4 +19,17 @@ async function pushToDesk({ ref, c, q, pay, paid, payId, courier, awb, note }) {
     return r.ok && j.ok ? { ok: true, id: j.id } : { ok: false, error: j.error || "Order Desk HTTP " + r.status };
   } catch (e) { return { ok: false, error: String(e.message || e) }; }
 }
-module.exports = { pushToDesk, deskOn };
+
+// Checkout lead (shopper ticked the WhatsApp consent box). Never throws; callers ignore failures.
+async function pushLead({ name, phone, product }) {
+  if (!deskOn()) return { ok: false, error: "WEB_ORDER_KEY not set" };
+  try {
+    const r = await fetch(deskUrl() + "/api/web-order", {
+      method: "POST", headers: { "Content-Type": "application/json", "x-web-order-key": process.env.WEB_ORDER_KEY },
+      body: JSON.stringify({ lead: true, consent: true, phone, name, product, site: "youthfacebeauty.com" }),
+    });
+    const j = await r.json().catch(() => ({}));
+    return r.ok && j.ok ? { ok: true } : { ok: false, error: j.error || "Order Desk HTTP " + r.status };
+  } catch (e) { return { ok: false, error: String(e.message || e) }; }
+}
+module.exports = { pushToDesk, pushLead, deskOn };

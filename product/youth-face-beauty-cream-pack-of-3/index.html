@@ -954,6 +954,7 @@ function renderCheckout(){ if(cart.length) track("begin_checkout",{currency:"INR
           <div class="field" id="f-phone"><label for="phone">Mobile number</label><div class="phone-in"><span>+91</span><input id="phone" inputmode="numeric" maxlength="10" autocomplete="tel-national" placeholder="10-digit mobile" value="${esc(co.phone)}"></div><span class="err"></span></div>
           ${f("email","Email (optional, for order updates)",'type="email" autocomplete="email" placeholder="you@example.com"',co.email)}
           <label class="chk"><input type="checkbox" id="wa" ${co.wa?"checked":""}> Send order updates on WhatsApp</label>
+          <label class="chk" style="align-items:flex-start;line-height:1.4"><input type="checkbox" id="leadOk" style="margin-top:2px;flex:none"> <span>You may message me on WhatsApp about this order and related offers, even if I don't complete it.</span></label>
         </div></div>
 
       <div class="panel"><h3><span class="num" id="n2">2</span>Delivery address</h3>
@@ -1000,6 +1001,14 @@ function renderCheckout(){ if(cart.length) track("begin_checkout",{currency:"INR
   $("#applyC").onclick=()=>{ if(couponApplied){couponApplied="";$("#couponIn").value="";$("#cmsg").textContent="";$("#applyC").textContent="Apply"} else applyCoupon($("#couponIn").value); read(); renderCheckoutSummary() };
   document.querySelectorAll("[data-coupon]").forEach(b=>b.onclick=()=>{ $("#couponIn").value=b.dataset.coupon; applyCoupon(b.dataset.coupon); read(); renderCheckoutSummary() });
   form.addEventListener("submit",placeOrder);
+  // Lead capture: only when the shopper ticks the WhatsApp consent box and the mobile number is valid; once per phone per page load.
+  const leadSent=window.__yfLeadSent||(window.__yfLeadSent={});
+  const sendLead=()=>{ try{
+    const ph=$("#phone").value.replace(/\D/g,""); if(!$("#leadOk").checked||!/^[6-9]\d{9}$/.test(ph)||leadSent[ph]) return; leadSent[ph]=1;
+    const product=cart.map(l=>{const p=byId(l.id); return p?`${p.name} ${p.size} x${l.qty}`:""}).filter(Boolean).join(", ").slice(0,120);
+    fetch("/api/lead",{method:"POST",headers:{"Content-Type":"application/json"},keepalive:true,body:JSON.stringify({name:$("#name").value.trim(),phone:ph,product,consent:true})}).catch(()=>{});
+  }catch(e){} };
+  $("#phone").addEventListener("blur",sendLead); $("#leadOk").addEventListener("change",sendLead);
   renderCheckoutSummary(); stepMarks();
 }
 function applyCoupon(code){
