@@ -526,7 +526,7 @@ const CONFIG = {
   ],
   deliveryDays: null                   // e.g. {metro:[2,4], other:[4,7]} working days — shows delivery dates when filled
 };
-const IMG = "https://youthfacebeauty.com/wp-content/uploads/2026/09/";
+const IMG = "https://www.youthfacebeauty.com/wp-content/uploads/2026/09/";
 const PHOTOS = {
   jarsBoxes: IMG+"youth-face-jars-boxes-real.jpg",
   seal: IMG+"youth-face-lid-authentication-seal.jpg",
@@ -799,7 +799,7 @@ function keralaLink(pin){
   if(/^6[789]/.test(pin)) return `<br><a href="${SITE_LINK("/youth-face-cream-kerala/")}">Delivering in Kerala? See Kerala delivery info →</a>`;
   return "";
 }
-const SITE_LINK = p => (window.YF_PATH_MODE ? p : "https://youthfacebeauty.com"+p);
+const SITE_LINK = p => (window.YF_PATH_MODE ? p : "https://www.youthfacebeauty.com"+p);
 function netQty(p){ return p.family==="lotion" ? "40 ml" : (p.units>1 ? `${p.units} × 25g jars (${p.units*25}g total)` : "1 × 25g jar") }
 function detailsHTML(p){
   const D = DETAILS[p.family]; if(!D) return "";
