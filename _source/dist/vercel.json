@@ -1,0 +1,300 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/cart",
+      "destination": "/checkout/",
+      "permanent": true
+    },
+    {
+      "source": "/cart/",
+      "destination": "/checkout/",
+      "permanent": true
+    },
+    {
+      "source": "/my-account/",
+      "destination": "/track-order/",
+      "permanent": true
+    },
+    {
+      "source": "/feed/",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/my-account/:path*",
+      "destination": "/track-order/",
+      "permanent": true
+    },
+    {
+      "source": "/my-account",
+      "destination": "/track-order/",
+      "permanent": true
+    },
+    {
+      "source": "/sitemap_index.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/wp-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/post-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/page-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/product-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/category-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/product_cat-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/local-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/feed/:path*",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/feed",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/category/:path*",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/tag/:path*",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/author/:path*",
+      "destination": "/about-the-author/",
+      "permanent": true
+    },
+    {
+      "source": "/product-category/:path*",
+      "destination": "/shop/",
+      "permanent": true
+    },
+    {
+      "source": "/product-tag/:path*",
+      "destination": "/shop/",
+      "permanent": true
+    },
+    {
+      "source": "/brand/:path*",
+      "destination": "/shop/",
+      "permanent": true
+    },
+    {
+      "source": "/shop/page/:n",
+      "destination": "/shop/",
+      "permanent": true
+    },
+    {
+      "source": "/page/:n",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/wp-admin/:path*",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/wp-login.php",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/favicon.ico",
+      "destination": "/favicon-48.png",
+      "permanent": true
+    },
+    {
+      "source": "/:slug/amp",
+      "destination": "/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "add-to-cart",
+          "value": "22"
+        }
+      ],
+      "destination": "/product/youth-face-beauty-cream-25g/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "add-to-cart",
+          "value": "159"
+        }
+      ],
+      "destination": "/product/youth-face-beauty-cream-pack-of-2/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "add-to-cart",
+          "value": "160"
+        }
+      ],
+      "destination": "/product/youth-face-beauty-cream-pack-of-3/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "add-to-cart",
+          "value": "330"
+        }
+      ],
+      "destination": "/product/youth-face-body-lotion/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "add-to-cart"
+        }
+      ],
+      "destination": "/shop/",
+      "permanent": false
+    },
+    {
+      "source": "/category/:slug/",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/tag/:slug/",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/author/:slug/",
+      "destination": "/about-the-author/",
+      "permanent": true
+    },
+    {
+      "source": "/product-category/:slug/",
+      "destination": "/shop/",
+      "permanent": true
+    },
+    {
+      "source": "/product-tag/:slug/",
+      "destination": "/shop/",
+      "permanent": true
+    },
+    {
+      "source": "/brand/:slug/",
+      "destination": "/shop/",
+      "permanent": true
+    },
+    {
+      "source": "/category/:slug/page/:n/",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    },
+    {
+      "source": "/tag/:slug/page/:n/",
+      "destination": "/skincare-guides/",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/wp-content/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "(?<sub>.*)\\.vercel\\.app"
+        }
+      ],
+      "destination": "https://youthfacebeauty.com/wp-content/:path*"
+    },
+    {
+      "source": "/wp-content/:path*",
+      "destination": "https://old.youthfacebeauty.com/wp-content/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "(?<sub>.*)\\.vercel\\.app"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/wp-content/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
