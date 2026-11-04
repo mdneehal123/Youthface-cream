@@ -8,16 +8,16 @@ const { readJson, send } = require("./_razorpay");
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") return send(res, 405, { error: "Use POST" });
-  if (!delhiveryOn()) return send(res, 503, { error: "COD booking is not switched on." });
+  if (!delhiveryOn()) return send(res, 409, { error: "Cash on Delivery is not available for this pincode. Please pay online.", codUnavailable: true });
   const b = await readJson(req);
   if (b.website) return send(res, 200, { ok: true });
   let q, c;
   try { q = price(b.items, b.coupon, "cod"); c = customer(b.customer); } catch (e) { return send(res, 400, { error: e.message }); }
   const ref = String(b.ref || "").replace(/[^A-Z0-9]/gi, "").slice(0, 20) || "YF" + Date.now().toString().slice(-7);
-  try {
-    const s = await serviceable(c.pin);
-    if (s.known && !s.cod) return send(res, 409, { error: "Cash on Delivery isn't available for pin code " + c.pin + ". Please pay online instead.", codUnavailable: true });
-  } catch (e) { /* if the check fails, still try to book */ }
+  // COD only when Delhivery confirms this pin code is serviceable and allows COD. Unknown pin code, failed check or no answer: refuse, before saving or booking.
+  let codOk = false;
+  try { const s = await serviceable(c.pin); codOk = s.known && s.cod; } catch (e) { codOk = false; }
+  if (!codOk) return send(res, 409, { error: "Cash on Delivery is not available for this pincode. Please pay online.", codUnavailable: true });
   let d;
   try { d = await createShipment({ ref, c, q, pay: "cod" }); } catch (e) { d = { ok: false, error: String(e.message || e) }; }
   // Every COD order is also saved in the Order Desk as a customer record.

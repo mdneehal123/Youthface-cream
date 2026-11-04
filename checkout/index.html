@@ -958,6 +958,7 @@ function renderCheckout(){ if(cart.length) track("begin_checkout",{currency:"INR
         <div class="fields">
           ${f("name","Full name",'autocomplete="name" placeholder="Name on the parcel"',co.name)}
           <div class="row2">${f("pin","Pin code",'inputmode="numeric" maxlength="6" autocomplete="postal-code" placeholder="6 digits"',co.pin)}${f("city","City",'autocomplete="address-level2"',co.city)}</div>
+          <div class="msg no" id="pinCod" hidden></div>
           <div class="field" id="f-address"><label for="address">House no., building, street, area</label><textarea id="address" rows="2" autocomplete="street-address">${esc(co.address)}</textarea><span class="err"></span></div>
           <div class="row2">${f("landmark","Landmark (optional)",'',co.landmark)}
             <div class="field" id="f-state"><label for="state">State</label><select id="state" autocomplete="address-level1"><option value="">Select state</option>${STATES.map(s=>`<option ${s===co.state?"selected":""}>${s}</option>`).join("")}</select><span class="err"></span></div></div>
@@ -993,7 +994,8 @@ function renderCheckout(){ if(cart.length) track("begin_checkout",{currency:"INR
   const read=()=>{ co={...co, phone:$("#phone").value.replace(/\D/g,""), email:$("#email").value.trim(), name:$("#name").value.trim(), pin:$("#pin").value.replace(/\D/g,""), city:$("#city").value.trim(), address:$("#address").value.trim(), landmark:$("#landmark").value.trim(), state:$("#state").value, pay:form.pay.value, wa:$("#wa").checked}; store.set("yf_co",{...co,coupon:couponApplied}); };
   form.addEventListener("input",e=>{ if(e.target.id==="phone") e.target.value=e.target.value.replace(/\D/g,"").slice(0,10); if(e.target.id==="pin") e.target.value=e.target.value.replace(/\D/g,"").slice(0,6); read(); clearErr(e.target.id); stepMarks(); if(e.target.name==="pay") renderCheckoutSummary() });
   form.addEventListener("change",()=>{read(); renderCheckoutSummary()});
-  $("#pin").addEventListener("input",()=>{ if($("#pin").value.length===6) lookupPin($("#pin").value) });
+  $("#pin").addEventListener("input",()=>{ if($("#pin").value.length===6) lookupPin($("#pin").value); checkCodPin($("#pin").value) });
+  checkCodPin(co.pin);
   $("#sumT").onclick=()=>$("#sumPanel").classList.toggle("collapsed");
   $("#applyC").onclick=()=>{ if(couponApplied){couponApplied="";$("#couponIn").value="";$("#cmsg").textContent="";$("#applyC").textContent="Apply"} else applyCoupon($("#couponIn").value); read(); renderCheckoutSummary() };
   document.querySelectorAll("[data-coupon]").forEach(b=>b.onclick=()=>{ $("#couponIn").value=b.dataset.coupon; applyCoupon(b.dataset.coupon); read(); renderCheckoutSummary() });
@@ -1031,6 +1033,22 @@ function renderCheckoutSummary(){
   $("#sumTotalTop").textContent=rs(t.total);
   $("#barAmt").innerHTML=`${rs(t.total)}<small>Saving ${rs(t.saved)}</small>`;
   $("#placeBtn").textContent = co.pay==="online" ? `Pay ${rs(t.total)}` : `Place COD order`;
+}
+/* Cash on Delivery only when Delhivery allows it for this pin code (via /api/pincode); a failed check also turns it off. Online payment is never affected. */
+const NO_COD="Cash on Delivery is not available for this pincode. Please pay online.";
+let codPin={pin:"",ok:null};
+function applyCod(){
+  const r=document.querySelector('input[name=pay][value=cod]'); if(!r) return;
+  const blocked = codPin.ok===false && codPin.pin===co.pin;
+  r.disabled=blocked; const lab=r.closest("label"); if(lab){lab.style.opacity=blocked?".5":"";lab.style.cursor=blocked?"not-allowed":""}
+  const n=$("#pinCod"); if(n){n.textContent=blocked?NO_COD:""; n.hidden=!blocked}
+  if(blocked && r.checked){ const on=document.querySelector('input[name=pay][value=online]'); if(on) on.checked=true; co.pay="online"; renderCheckoutSummary() }
+}
+function checkCodPin(pin){
+  if(!/^[1-9]\d{5}$/.test(pin)){ codPin={pin:"",ok:null}; applyCod(); return }
+  if(codPin.pin===pin && codPin.ok!==null){ applyCod(); return }
+  codPin={pin,ok:null};
+  fetch("/api/pincode/?pin="+pin).then(r=>r.ok?r.json():null).catch(()=>null).then(j=>{ if(codPin.pin!==pin) return; codPin.ok=!!(j&&j.cod===true); applyCod() });
 }
 async function lookupPin(pin){
   try{
@@ -1112,9 +1130,11 @@ async function placeOrder(e){
     try{ const pd = await payOnline(order); order.paid = pd; order.savedToDesk = pd.savedToDesk }
     catch(err){ payMsg(err.message); return }
   }
-  if(co.pay==="cod" && PAY.cod){
+  if(co.pay==="cod"){
+    // COD is only accepted once the server has checked the pin code with Delhivery and booked it; never as a WhatsApp/sheet-only order.
+    if(!PAY.cod){ payMsg(NO_COD); return }
     try{ const j = await bookCod(order); order.ship = j; order.t.total = j.total }
-    catch(err){ payMsg(err.message + (err.codUnavailable?"":" You can also order on WhatsApp.")); if(!err.codUnavailable) finishOrder(order); return }
+    catch(err){ if(err.codUnavailable){ codPin={pin:co.pin,ok:false}; applyCod(); payMsg(NO_COD) } else payMsg(err.message + " Please try again, or pay online."); return }
   }
   finishOrder(order);
 }
