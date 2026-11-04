@@ -13,7 +13,7 @@ All store settings are in `_source/index.html` → `const CONFIG` (top of the sc
 | `ga4Id` / `metaPixelId` | Google Analytics and Meta Pixel. Tracks page views, add to cart, checkout and orders. |
 | `grievanceOfficer`, `manufacturer`, `countryOfOrigin` | Shown in the footer and on product pages when filled. |
 | `deliveryDays` | e.g. `{metro:[2,4], other:[4,7]}`. When filled, the pin-code checker shows delivery dates. Empty = no dates promised. |
-| `codFee`, `prepaidDiscountPct`, `coupons`, `rewards` | Offers. Currently: no COD charge, 5% off online, WELCOME10, GLOW100, ₹50 off at ₹999, ₹150 off at ₹1,444. |
+| `codFee`, `prepaidDiscountPct`, `coupons`, `rewards` | Offers. Currently: ₹30 COD fee on orders with the Pack of 1 only, no online discount, WELCOME10, GLOW100, ₹50 off at ₹999, ₹150 off at ₹1,444. |
 
 ## Online payment (Razorpay)
 Server code in `api/` creates Razorpay orders (amount calculated on the server) and verifies every payment signature.

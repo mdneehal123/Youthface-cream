@@ -3,7 +3,7 @@
 HUB = {
     "path": "/youth-face-cream-kerala/",
     "title": "Youth Face Cream in Kerala – Price, COD & Delivery | Youth Face",
-    "description": "Order original Youth Face Beauty Cream anywhere in Kerala: ₹549 for 25g, free shipping, Cash on Delivery and UPI. Delivery to Kochi, Thiruvananthapuram, Kozhikode and more.",
+    "description": "Order original Youth Face Beauty Cream anywhere in Kerala: ₹599 for 25g, free shipping, Cash on Delivery and UPI. Delivery to Kochi, Thiruvananthapuram, Kozhikode and more.",
     "h1": "Youth Face Cream in Kerala",
     "ml": "കേരളത്തിൽ എല്ലായിടത്തും ഒറിജിനൽ യൂത്ത് ഫേസ് ക്രീം ഓൺലൈനായി ഓർഡർ ചെയ്യാം. ക്യാഷ് ഓൺ ഡെലിവറി ലഭ്യമാണ്.",
 }
@@ -78,7 +78,7 @@ CITIES = [
         "areas": [("Kollam town", "691001"), ("Karunagappally", "690518"), ("Kottarakkara", "691506"), ("Punalur", "691305")],
         "intro": "Kollam, once known as Quilon, is a coastal district between Alappuzha and Thiruvananthapuram, with towns like Karunagappally, Kottarakkara and Punalur. You can order Youth Face Cream online from anywhere in Kollam district and pay when it arrives.",
         "climate": "Coastal Kollam is warm and humid, while inland Punalur can get very hot in summer. Adjust to how your skin feels: thinner layers when it's humid, and a gentle moisturiser if it feels dry.",
-        "faq": ("Is it the same price in Kollam as on the website?", "Yes. The price is the same for every pin code in Kerala: ₹549 for one jar, ₹999 for two and ₹1,444 for three, with free shipping."),
+        "faq": ("Is it the same price in Kollam as on the website?", "Yes. The price is the same for every pin code in Kerala: ₹599 for one jar, ₹999 for two and ₹1,444 for three, with free shipping."),
     },
     {
         "slug": "thiruvananthapuram", "name": "Thiruvananthapuram", "ml": "തിരുവനന്തപുരം", "district": "Thiruvananthapuram", "aka": "Trivandrum",
