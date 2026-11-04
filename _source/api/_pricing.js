@@ -15,6 +15,7 @@ const COUPONS = {
 };
 const REWARDS = [{ at: 999, off: 50 }, { at: 1444, off: 150 }];
 const PREPAID_PCT = 5;
+const PREPAID_EXTRA = 50; // plus this many ₹ off when paying online (keep the same as CONFIG.prepaidExtra in _source/index.html)
 const SHIPPING = 0;
 
 function price(items, couponCode, mode = "online") {
@@ -33,7 +34,7 @@ function price(items, couponCode, mode = "online") {
   let reward = 0;
   REWARDS.forEach(r => { if (sub >= r.at) reward = r.off; });
   const after = sub - coup - reward;
-  const prepaid = mode === "online" ? (after * PREPAID_PCT) / 100 : 0;
+  const prepaid = mode === "online" ? Math.min(after - 1, (after * PREPAID_PCT) / 100 + PREPAID_EXTRA) : 0;
   const total = Math.round(after - prepaid + SHIPPING);
   return { lines, sub, coupon: coup ? code : "", discount: Math.round(coup) + reward + Math.round(prepaid), total, units: lines.reduce((a, l) => a + l.qty * (UNITS[l.id] || 1), 0) };
 }

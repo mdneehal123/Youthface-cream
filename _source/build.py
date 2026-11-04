@@ -309,7 +309,7 @@ def write(path, doc):
 
 
 # ---------------------------------------------------------------- static page chrome
-HEADER = '''<div class="ticker" aria-hidden="true"><div class="ticker-track"><span>FREE SHIPPING ACROSS INDIA</span><span>✦</span><span>CASH ON DELIVERY AVAILABLE</span><span>✦</span><span>EXTRA 5% OFF ON ONLINE PAYMENT</span><span>✦</span><span>100% ORIGINAL YOUTH FACE</span><span>✦</span><span>FREE SHIPPING ACROSS INDIA</span><span>✦</span><span>CASH ON DELIVERY AVAILABLE</span><span>✦</span><span>EXTRA 5% OFF ON ONLINE PAYMENT</span><span>✦</span><span>100% ORIGINAL YOUTH FACE</span><span>✦</span></div></div>
+HEADER = '''<div class="ticker" aria-hidden="true"><div class="ticker-track"><span>FREE SHIPPING ACROSS INDIA</span><span>✦</span><span>CASH ON DELIVERY AVAILABLE</span><span>✦</span><span>EXTRA 5% + ₹50 OFF ON ONLINE PAYMENT</span><span>✦</span><span>100% ORIGINAL YOUTH FACE</span><span>✦</span><span>FREE SHIPPING ACROSS INDIA</span><span>✦</span><span>CASH ON DELIVERY AVAILABLE</span><span>✦</span><span>EXTRA 5% + ₹50 OFF ON ONLINE PAYMENT</span><span>✦</span><span>100% ORIGINAL YOUTH FACE</span><span>✦</span></div></div>
 <header class="top"><div class="wrap">
   <a class="logo" href="/">Youth<span>Face</span><small>Beauty Mart</small></a>
   <nav class="main" aria-label="Main"><a href="/shop/">Shop</a><a href="/skincare-guides/">Guides</a><a href="/how-to-use/">How to use</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a></nav>
@@ -684,9 +684,9 @@ def main():
             [(f"Is Youth Face Cream available in {nm}?", f"Yes. Order online or on WhatsApp and it is delivered to your door anywhere in {c['district']} district, including {areas3}."),
              (f"Can I get Youth Face Cream delivered in {nm}?", f"Yes. Youth Face delivers to homes and offices across {c['district']} district, such as {areas3}. Order on the website or WhatsApp."),
              (f"Does Youth Face deliver to {nm}?", f"Yes, to every serviceable pin code in {c['district']} district, including {areas3}.")][v],
-            [(f"Is Cash on Delivery available in {nm}?", f"Yes. You can pay in cash when the parcel arrives in {nm}, or pay online by UPI, card or net banking for an extra 5% off."),
-             (f"Can I pay on delivery in {nm}?", f"Yes. Choose Cash on Delivery at checkout. Online payment is also available and gives an extra 5% off."),
-             (f"What payment options are there for {nm} orders?", "Cash on Delivery, UPI, cards and net banking. Paying online at checkout gives an extra 5% off.")][v],
+            [(f"Is Cash on Delivery available in {nm}?", f"Yes. You can pay in cash when the parcel arrives in {nm}, or pay online by UPI, card or net banking for an extra 5% + ₹50 off."),
+             (f"Can I pay on delivery in {nm}?", f"Yes. Choose Cash on Delivery at checkout. Online payment is also available and gives an extra 5% + ₹50 off."),
+             (f"What payment options are there for {nm} orders?", "Cash on Delivery, UPI, cards and net banking. Paying online at checkout gives an extra 5% + ₹50 off.")][v],
             [(f"What is the Youth Face Cream price in {nm}?", "₹549 for a 25g jar, ₹999 for two and ₹1,444 for three, the same as everywhere in India, with free shipping."),
              (f"How much does Youth Face Cream cost in {nm}?", "One 25g jar is ₹549. Pack of 2 is ₹999 and Pack of 3 is ₹1,444. There is no delivery charge."),
              (f"Is Youth Face Cream more expensive in {nm}?", "No. The price is the same across India: ₹549, ₹999 or ₹1,444 depending on the pack, with free shipping.")][v],
@@ -697,7 +697,7 @@ def main():
         lead = [f"<b>Yes, you can order original Youth Face Beauty Cream in {esc(nm)}.</b> A 25g jar costs ₹549, shipping to every {esc(nm)} pin code is free, and you can pay by Cash on Delivery or UPI.",
                 f"<b>Youth Face Beauty Cream delivers to {esc(nm)} and all of {esc(c['district'])} district.</b> It's ₹549 for 25g with free shipping, and Cash on Delivery is available.",
                 f"<b>Looking for Youth Face Cream in {esc(nm)}?</b> Order the original online for ₹549 (25g), get free delivery to your door, and pay in cash on arrival if you prefer."][v]
-        price_intro = ["Prices are the same across Kerala and the rest of India. Paying online at checkout gives an extra 5% off.",
+        price_intro = ["Prices are the same across Kerala and the rest of India. Paying online at checkout gives an extra 5% + ₹50 off.",
                        f"There is no extra charge for {esc(nm)} delivery. Bigger packs lower the price per jar.",
                        f"{esc(nm)} customers pay the same price as anywhere else in India. Pack of 3 is the best value per jar."][v]
         routine = [f"<p>For most people in {esc(nm)}, a simple routine is enough: a small amount of cream on clean skin at night, sunscreen every morning, and a patch test before the first full use.</p>",

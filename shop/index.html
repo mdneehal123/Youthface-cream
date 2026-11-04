@@ -532,6 +532,7 @@ const CONFIG = {
   shippingFee: 0,
   codFee: 0,                          // extra charge for Cash on Delivery (0 = no charge)
   prepaidDiscountPct: 5,              // extra % off when paying online
+  prepaidExtra: 50,                   // plus this many ₹ off when paying online (keep the same as PREPAID_EXTRA in api/_pricing.js)
   coupons: {                          // code: {type:"pct"|"flat", value, min}
     "WELCOME10": {type:"pct", value:10, min:0, label:"10% off your first order"},
     "GLOW100":   {type:"flat", value:100, min:999, label:"₹100 off on ₹999+"}
@@ -636,7 +637,7 @@ function photoFallback(alt){const d=document.createElement("div");d.className="p
 function jarFallback(label){const d=document.createElement("div");d.className="fallback";d.innerHTML=`<div class="jar"><div class="lid"></div><div class="pot">${label}</div></div>`;return d}
 let toastT; function toast(t){let el=$("#toast"); if(!el){el=document.createElement("div");el.id="toast";el.className="toast";document.body.appendChild(el)} el.textContent=t; el.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>el.hidden=true,1800)}
 
-$("#tick").innerHTML = Array(2).fill(["FREE SHIPPING ACROSS INDIA","CASH ON DELIVERY AVAILABLE",`EXTRA ${CONFIG.prepaidDiscountPct}% OFF ON ONLINE PAYMENT`,"100% ORIGINAL YOUTH FACE"].map(t=>`<span>${t}</span><span>✦</span>`).join("")).join("");
+$("#tick").innerHTML = Array(2).fill(["FREE SHIPPING ACROSS INDIA","CASH ON DELIVERY AVAILABLE",`EXTRA ${CONFIG.prepaidDiscountPct}% + ₹${CONFIG.prepaidExtra} OFF ON ONLINE PAYMENT`,"100% ORIGINAL YOUTH FACE"].map(t=>`<span>${t}</span><span>✦</span>`).join("")).join("");
 
 /* ================= cart ================= */
 let cart = store.get("yf_cart", []);
@@ -888,7 +889,7 @@ function renderPDP(p){
         <div class="buyrow"><div class="qty"><button aria-label="Decrease" id="qm">−</button><span class="tnum" id="qv">${qty}</span><button aria-label="Increase" id="qp">+</button></div>
           <button class="btn btn-line" id="pAdd">Add to cart</button></div>
         <button class="btn btn-pink btn-block" id="pBuy">Buy now · ${rs(sel.price*qty)}</button>
-        <div class="nudge" style="margin-top:12px">Extra ${CONFIG.prepaidDiscountPct}% off when you pay online at checkout</div>
+        <div class="nudge" style="margin-top:12px">Extra ${CONFIG.prepaidDiscountPct}% + ₹${CONFIG.prepaidExtra} off when you pay online at checkout</div>
         <div class="ship-now">🚚 ${dispatchLine()}</div>
         <div class="pincheck"><label for="pdpPin">Check delivery to your pin code</label><div class="coupon"><input id="pdpPin" inputmode="numeric" maxlength="6" placeholder="Enter pin code" value="${esc(co.pin||"")}"><button type="button" class="btn btn-line" id="pdpPinBtn">Check</button></div><div class="msg" id="pdpPinMsg"></div></div>
         <div class="pdp-actions"><button class="heart-pill" data-wish="${sel.id}" aria-pressed="${wish.includes(sel.id)}">♥ Wishlist</button><a class="heart-pill" href="https://wa.me/?text=${encodeURIComponent("Check out "+sel.name+" ("+sel.size+") for "+rs(sel.price)+" on Youth Face: "+(PATH_MODE ? location.origin+PATHS["p-"+sel.id] : location.href.split("#")[0]+"#p-"+sel.id))}" target="_blank" rel="noopener">Share on WhatsApp</a></div>
@@ -930,7 +931,7 @@ function totals(){
   if(c && sub>=c.min) coup = c.type==="pct" ? sub*c.value/100 : c.value;
   const rw = rewardFor(sub); const reward = rw ? rw.off : 0;
   const afterCoupon = sub-coup-reward;
-  const prepaid = co.pay==="online" ? afterCoupon*CONFIG.prepaidDiscountPct/100 : 0;
+  const prepaid = co.pay==="online" ? Math.min(afterCoupon-1, afterCoupon*CONFIG.prepaidDiscountPct/100 + CONFIG.prepaidExtra) : 0;
   const ship = (CONFIG.freeShippingOver && sub>=CONFIG.freeShippingOver) ? 0 : CONFIG.shippingFee;
   const cod = co.pay==="cod" ? CONFIG.codFee : 0;
   const total = Math.round(afterCoupon-prepaid+ship+cod);
@@ -967,8 +968,9 @@ function renderCheckout(){ if(cart.length) track("begin_checkout",{currency:"INR
 
       <div class="panel"><h3><span class="num">3</span>Payment</h3>
         <div class="pay">
-          <label class="payopt"><input type="radio" name="pay" value="online" ${co.pay==="online"?"checked":""}><div><b>Pay online</b><small>${CONFIG.paymentLink||CONFIG.upiId?"UPI · Cards · Net banking":"UPI or card · we send a secure payment link on WhatsApp"}</small></div><span class="save">Save ${CONFIG.prepaidDiscountPct}% extra</span></label>
+          <label class="payopt"><input type="radio" name="pay" value="online" ${co.pay==="online"?"checked":""}><div><b>Pay online</b><small>${CONFIG.paymentLink||CONFIG.upiId?"UPI · Cards · Net banking":"UPI or card · we send a secure payment link on WhatsApp"}</small></div><span class="save">Save ${CONFIG.prepaidDiscountPct}% + ₹${CONFIG.prepaidExtra} extra</span></label>
           <label class="payopt"><input type="radio" name="pay" value="cod" ${co.pay==="cod"?"checked":""}><div><b>Cash on Delivery</b><small>Pay when your parcel arrives</small></div><span class="fee">${CONFIG.codFee?"+"+rs(CONFIG.codFee):"Free"}</span></label>
+          <div class="nudge" id="codNudge" style="margin-top:4px;padding:12px" hidden><div id="codNudgeT" style="margin-bottom:10px"></div><button type="button" class="btn btn-pink" id="codNudgeGo" style="width:100%">Pay online instead</button></div>
         </div></div>
     </div>
 
@@ -998,6 +1000,7 @@ function renderCheckout(){ if(cart.length) track("begin_checkout",{currency:"INR
   $("#pin").addEventListener("input",()=>{ if($("#pin").value.length===6) lookupPin($("#pin").value); checkCodPin($("#pin").value) });
   checkCodPin(co.pin);
   $("#sumT").onclick=()=>$("#sumPanel").classList.toggle("collapsed");
+  $("#codNudgeGo").onclick=()=>{ const on=document.querySelector('input[name=pay][value=online]'); on.checked=true; read(); renderCheckoutSummary() };
   $("#applyC").onclick=()=>{ if(couponApplied){couponApplied="";$("#couponIn").value="";$("#cmsg").textContent="";$("#applyC").textContent="Apply"} else applyCoupon($("#couponIn").value); read(); renderCheckoutSummary() };
   document.querySelectorAll("[data-coupon]").forEach(b=>b.onclick=()=>{ $("#couponIn").value=b.dataset.coupon; applyCoupon(b.dataset.coupon); read(); renderCheckoutSummary() });
   form.addEventListener("submit",placeOrder);
@@ -1022,11 +1025,16 @@ function renderCheckoutSummary(){
   if(!cart.length){renderCheckout();return}
   $("#coLines").innerHTML=cart.map(l=>lineHTML(l,true)).join("");
   const t=totals();
+  // Cash on Delivery chosen: suggest paying online, with the exact saving
+  const nd=$("#codNudge");
+  if(nd){ const was=co.pay; co.pay="online"; const tOn=totals(); co.pay=was; const save=t.total-tOn.total;
+    nd.hidden=!(co.pay==="cod" && save>0);
+    if(!nd.hidden) $("#codNudgeT").innerHTML=`<b>Save ${rs(save)} by paying online.</b> Pay ${rs(tOn.total)} instead of ${rs(t.total)} by UPI, card or net banking, with nothing to pay at the door.` }
   $("#tot").innerHTML=`<div><span>MRP total</span><s>${rs(t.mrp)}</s></div>
     <div><span>Price</span><span>${rs(t.sub)}</span></div>
     ${t.coup?`<div class="g"><span>Coupon (${couponApplied})</span><span>−${rs(t.coup)}</span></div>`:""}
     ${t.reward?`<div class="g"><span>Cart reward (${t.rewardLabel})</span><span>−${rs(t.reward)}</span></div>`:""}
-    ${t.prepaid?`<div class="g"><span>Online payment ${CONFIG.prepaidDiscountPct}% off</span><span>−${rs(t.prepaid)}</span></div>`:""}
+    ${t.prepaid?`<div class="g"><span>Online payment ${CONFIG.prepaidDiscountPct}% + ₹${CONFIG.prepaidExtra} off</span><span>−${rs(t.prepaid)}</span></div>`:""}
     <div><span>Shipping</span><span class="${t.ship?"":"g"}">${t.ship?rs(t.ship):"FREE"}</span></div>
     ${t.cod?`<div><span>COD charge</span><span>${rs(t.cod)}</span></div>`:""}
     <div class="grand"><span>To pay</span><span>${rs(t.total)}</span></div>`;
