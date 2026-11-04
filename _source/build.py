@@ -309,7 +309,7 @@ def write(path, doc):
 
 
 # ---------------------------------------------------------------- static page chrome
-HEADER = '''<div class="ticker" aria-hidden="true"><div class="ticker-track"><span>FREE SHIPPING ACROSS INDIA</span><span>✦</span><span>CASH ON DELIVERY AVAILABLE</span><span>✦</span><span>EXTRA 5% OFF ON ONLINE PAYMENT</span><span>✦</span><span>100% ORIGINAL YOUTH FACE</span><span>✦</span><span>FREE SHIPPING ACROSS INDIA</span><span>✦</span><span>CASH ON DELIVERY AVAILABLE</span><span>✦</span><span>EXTRA 5% OFF ON ONLINE PAYMENT</span><span>✦</span><span>100% ORIGINAL YOUTH FACE</span><span>✦</span></div></div>
+HEADER = '''<div class="ticker" aria-hidden="true"><div class="ticker-track"><span>FREE SHIPPING ACROSS INDIA</span><span>✦</span><span>CASH ON DELIVERY AVAILABLE</span><span>✦</span><span>EASY UPI &amp; CARD PAYMENTS</span><span>✦</span><span>100% ORIGINAL YOUTH FACE</span><span>✦</span><span>FREE SHIPPING ACROSS INDIA</span><span>✦</span><span>CASH ON DELIVERY AVAILABLE</span><span>✦</span><span>EASY UPI &amp; CARD PAYMENTS</span><span>✦</span><span>100% ORIGINAL YOUTH FACE</span><span>✦</span></div></div>
 <header class="top"><div class="wrap">
   <a class="logo" href="/">Youth<span>Face</span><small>Beauty Mart</small></a>
   <nav class="main" aria-label="Main"><a href="/shop/">Shop</a><a href="/skincare-guides/">Guides</a><a href="/how-to-use/">How to use</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a></nav>
@@ -395,7 +395,7 @@ ARTICLE_CSS = '''<style>
 BUYBOX = '''<aside class="buybox" aria-label="Shop Youth Face Beauty Cream">
   <div class="pic"><img src="/wp-content/uploads/2026/09/Youth-Face-Beauty-Cream-25g-600x600.png" alt="Youth Face Beauty Cream 25g jar" width="600" height="600" loading="lazy"></div>
   <div><div class="eyebrow">Official store</div><h3>Youth Face Beauty Cream 25g</h3>
-    <div class="price"><span class="now tnum">₹549</span><s class="tnum">₹899</s><span class="off">39% OFF</span></div>
+    <div class="price"><span class="now tnum">₹599</span><s class="tnum">₹899</s><span class="off">33% OFF</span></div>
     <div class="per">Kojic Acid &amp; Alpha Arbutin · COD available · Free shipping</div>
     <div class="row"><a class="btn btn-pink" href="/product/youth-face-beauty-cream-25g/">Buy now</a><a class="btn btn-line" href="/shop/">See packs from ₹481/jar</a></div></div>
 </aside>'''
@@ -440,7 +440,7 @@ def main():
     seo["wishlist"] = {"title": "Wishlist | Youth Face", "description": "", "canonical": SITE + "/wishlist/"}
     boot = f'<script>window.YF_PATH_MODE=true;window.YF_SEO={json.dumps(seo, ensure_ascii=False)};</script>'
 
-    price = {"cream-1": (549, 899, "YFB-PACK-1"), "cream-2": (999, 1599, "YFB-PACK-2"), "cream-3": (1444, 1899, "YFB-PACK-3"), "lotion": (599, 599, "YFB-LOTION-40")}
+    price = {"cream-1": (599, 899, "YFB-PACK-1"), "cream-2": (999, 1599, "YFB-PACK-2"), "cream-3": (1444, 1899, "YFB-PACK-3"), "lotion": (599, 599, "YFB-LOTION-40")}
     img = {"cream-1": "Youth-Face-Beauty-Cream-25g-600x600.png", "cream-2": "ChatGPT-Image-Sep-17-2026-08_27_12-PM-600x600.png",
            "cream-3": "Youth-Face-Beauty-Cream-skincare-product-for-dark-spot-care-600x600.png", "lotion": "ChatGPT-Image-Sep-19-2026-01_47_45-AM-600x600.png"}
 
@@ -649,10 +649,10 @@ def main():
 </style>"""
     K = kerala.CITIES
     PRICE_ROWS = '<div class="tbl"><table><thead><tr><th>Pack</th><th>What you get</th><th>Price</th><th>Per jar</th></tr></thead><tbody>' + \
-        '<tr><td><a href="/product/youth-face-beauty-cream-25g/">Pack of 1</a></td><td>1 × 25g jar</td><td>₹549</td><td>₹549</td></tr>' + \
+        '<tr><td><a href="/product/youth-face-beauty-cream-25g/">Pack of 1</a></td><td>1 × 25g jar</td><td>₹599</td><td>₹599</td></tr>' + \
         '<tr><td><a href="/product/youth-face-beauty-cream-pack-of-2/">Pack of 2</a></td><td>2 × 25g jars (50g)</td><td>₹999</td><td>₹500</td></tr>' + \
         '<tr><td><a href="/product/youth-face-beauty-cream-pack-of-3/">Pack of 3</a></td><td>3 × 25g jars (75g)</td><td>₹1,444</td><td>₹481</td></tr></tbody></table></div>'
-    QUICK = '<div class="quick"><div><b>₹549</b><span>25g jar · from ₹481/jar in packs</span></div><div><b>Free</b><span>shipping to every Kerala pin code</span></div><div><b>COD</b><span>plus UPI, cards and net banking</span></div></div>'
+    QUICK = '<div class="quick"><div><b>₹599</b><span>25g jar · from ₹481/jar in packs</span></div><div><b>Free</b><span>shipping to every Kerala pin code</span></div><div><b>COD</b><span>plus UPI, cards and net banking</span></div></div>'
     kpages = []
 
     def kerala_page(path, title, desc, h1, body, crumb, faqs, area_ld, geo_head=""):
@@ -662,7 +662,7 @@ def main():
                "inLanguage": "en-IN", "dateModified": datetime.date.today().isoformat(), "publisher": {"@id": SITE + "/#organization"},
                "about": {"@type": "Product", "name": "Youth Face Beauty Cream", "brand": {"@type": "Brand", "name": "Youth Face"},
                          "image": SITE + UP + "Youth-Face-Beauty-Cream-25g-600x600.png", "sku": "YFB-PACK-1",
-                         "offers": {"@type": "AggregateOffer", "priceCurrency": "INR", "lowPrice": "549", "highPrice": "1444", "offerCount": 3,
+                         "offers": {"@type": "AggregateOffer", "priceCurrency": "INR", "lowPrice": "599", "highPrice": "1444", "offerCount": 3,
                                     "availability": "https://schema.org/InStock", "areaServed": area_ld, "seller": {"@id": SITE + "/#organization"}}}}]
         static_page(path, title, desc, body, ld=ld, extra_head=geo_head)
         kpages.append(path)
@@ -674,8 +674,8 @@ def main():
         path = f"/youth-face-cream-{c['slug']}/"
         nm, aka = c["name"], c["aka"]
         label = f"{nm} ({aka})" if aka else nm
-        title = f"Youth Face Cream in {label} – ₹549, COD Available"
-        desc = (f"Buy original Youth Face Beauty Cream in {label}, {c['district']} district, Kerala. ₹549 for 25g, free shipping, "
+        title = f"Youth Face Cream in {label} – ₹599, COD Available"
+        desc = (f"Buy original Youth Face Beauty Cream in {label}, {c['district']} district, Kerala. ₹599 for 25g, free shipping, "
                 f"Cash on Delivery and UPI. Delivery to {', '.join(a for a, _ in c['areas'][:3])} and more.")[:300]
         near = [K[j] for j in (i - 1, i + 1, i + 2 if i == 0 else i - 2) if 0 <= j < len(K) and j != i][:3]
         v = i % 3  # rotate wording so shared sections differ between cities
@@ -684,20 +684,20 @@ def main():
             [(f"Is Youth Face Cream available in {nm}?", f"Yes. Order online or on WhatsApp and it is delivered to your door anywhere in {c['district']} district, including {areas3}."),
              (f"Can I get Youth Face Cream delivered in {nm}?", f"Yes. Youth Face delivers to homes and offices across {c['district']} district, such as {areas3}. Order on the website or WhatsApp."),
              (f"Does Youth Face deliver to {nm}?", f"Yes, to every serviceable pin code in {c['district']} district, including {areas3}.")][v],
-            [(f"Is Cash on Delivery available in {nm}?", f"Yes. You can pay in cash when the parcel arrives in {nm}, or pay online by UPI, card or net banking for an extra 5% off."),
-             (f"Can I pay on delivery in {nm}?", f"Yes. Choose Cash on Delivery at checkout. Online payment is also available and gives an extra 5% off."),
-             (f"What payment options are there for {nm} orders?", "Cash on Delivery, UPI, cards and net banking. Paying online at checkout gives an extra 5% off.")][v],
-            [(f"What is the Youth Face Cream price in {nm}?", "₹549 for a 25g jar, ₹999 for two and ₹1,444 for three, the same as everywhere in India, with free shipping."),
-             (f"How much does Youth Face Cream cost in {nm}?", "One 25g jar is ₹549. Pack of 2 is ₹999 and Pack of 3 is ₹1,444. There is no delivery charge."),
-             (f"Is Youth Face Cream more expensive in {nm}?", "No. The price is the same across India: ₹549, ₹999 or ₹1,444 depending on the pack, with free shipping.")][v],
+            [(f"Is Cash on Delivery available in {nm}?", f"Yes. You can pay in cash when the parcel arrives in {nm}, or pay online by UPI, card or net banking."),
+             (f"Can I pay on delivery in {nm}?", f"Yes. Choose Cash on Delivery at checkout. Online payment is also available."),
+             (f"What payment options are there for {nm} orders?", "Cash on Delivery, UPI, cards and net banking. Cash on Delivery adds ₹30 to orders with the single 25g jar (Pack of 1); packs of 2 and 3 have no Cash on Delivery fee.")][v],
+            [(f"What is the Youth Face Cream price in {nm}?", "₹599 for a 25g jar, ₹999 for two and ₹1,444 for three, the same as everywhere in India, with free shipping."),
+             (f"How much does Youth Face Cream cost in {nm}?", "One 25g jar is ₹599. Pack of 2 is ₹999 and Pack of 3 is ₹1,444. There is no delivery charge."),
+             (f"Is Youth Face Cream more expensive in {nm}?", "No. The price is the same across India: ₹599, ₹999 or ₹1,444 depending on the pack, with free shipping.")][v],
             c["faq"], c["faq2"],
             (f"Is there a Youth Face store in {nm}?", "No. There is no physical Youth Face shop in Kerala. The original is sold only on youthfacebeauty.com and WhatsApp +91 99808 81230, and ships from Beauty Mart in Bhatkal, Karnataka."),
         ]
         pins = "".join(f"<li>{esc(a)} <small>{z}</small></li>" for a, z in c["areas"])
-        lead = [f"<b>Yes, you can order original Youth Face Beauty Cream in {esc(nm)}.</b> A 25g jar costs ₹549, shipping to every {esc(nm)} pin code is free, and you can pay by Cash on Delivery or UPI.",
-                f"<b>Youth Face Beauty Cream delivers to {esc(nm)} and all of {esc(c['district'])} district.</b> It's ₹549 for 25g with free shipping, and Cash on Delivery is available.",
-                f"<b>Looking for Youth Face Cream in {esc(nm)}?</b> Order the original online for ₹549 (25g), get free delivery to your door, and pay in cash on arrival if you prefer."][v]
-        price_intro = ["Prices are the same across Kerala and the rest of India. Paying online at checkout gives an extra 5% off.",
+        lead = [f"<b>Yes, you can order original Youth Face Beauty Cream in {esc(nm)}.</b> A 25g jar costs ₹599, shipping to every {esc(nm)} pin code is free, and you can pay by Cash on Delivery or UPI.",
+                f"<b>Youth Face Beauty Cream delivers to {esc(nm)} and all of {esc(c['district'])} district.</b> It's ₹599 for 25g with free shipping, and Cash on Delivery is available.",
+                f"<b>Looking for Youth Face Cream in {esc(nm)}?</b> Order the original online for ₹599 (25g), get free delivery to your door, and pay in cash on arrival if you prefer."][v]
+        price_intro = ["Prices are the same across Kerala and the rest of India. Cash on Delivery adds ₹30 to orders with the single 25g jar (Pack of 1); packs of 2 and 3 have no Cash on Delivery fee.",
                        f"There is no extra charge for {esc(nm)} delivery. Bigger packs lower the price per jar.",
                        f"{esc(nm)} customers pay the same price as anywhere else in India. Pack of 3 is the best value per jar."][v]
         routine = [f"<p>For most people in {esc(nm)}, a simple routine is enough: a small amount of cream on clean skin at night, sunscreen every morning, and a patch test before the first full use.</p>",
@@ -739,7 +739,7 @@ def main():
     hub_faqs = [
         ("Can I buy Youth Face Cream in Kerala?", "Yes. Youth Face Beauty Cream delivers to every serviceable pin code in Kerala. Order on youthfacebeauty.com or on WhatsApp at +91 99808 81230."),
         ("Is Cash on Delivery available in Kerala?", "Yes. Cash on Delivery is available across Kerala, along with UPI, cards and net banking."),
-        ("What is the price of Youth Face Cream in Kerala?", "₹549 for one 25g jar, ₹999 for two and ₹1,444 for three. Shipping is free and the price is the same as in the rest of India."),
+        ("What is the price of Youth Face Cream in Kerala?", "₹599 for one 25g jar, ₹999 for two and ₹1,444 for three. Shipping is free and the price is the same as in the rest of India."),
         ("Where does my Kerala order ship from?", "All orders are packed and shipped by Beauty Mart in Bhatkal, Karnataka, on the coast just north of Kerala."),
         ("How long does delivery take in Kerala?", "It depends on your pin code and the courier route. Message us on WhatsApp at +91 99808 81230 with your pin code for a delivery estimate before you order."),
         ("Is the cream suitable for Kerala's humid weather?", "Most people use a thin layer at night and a light sunscreen during the day. In humid months avoid layering several heavy products. Patch test before first use."),
@@ -747,7 +747,7 @@ def main():
     rows = "".join(f'<tr><td><a href="/youth-face-cream-{c["slug"]}/">{esc(c["name"])}</a>{" <small>(" + esc(c["aka"]) + ")</small>" if c["aka"] else ""}</td><td>{esc(c["district"])}</td><td>{esc(", ".join(a for a, _ in c["areas"][:3]))}</td></tr>' for c in K)
     body = (KCSS + '<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> <span>›</span> <span>Kerala</span></nav>'
             f'<div class="eyebrow">Delivery across Kerala</div><h1>{H["h1"]}</h1>'
-            f'<div class="prose"><p class="lead"><b>Youth Face Beauty Cream delivers to every district in Kerala</b>, from Kasaragod in the north to Thiruvananthapuram in the south. It costs ₹549 for a 25g jar, shipping is free, and Cash on Delivery is available.</p>'
+            f'<div class="prose"><p class="lead"><b>Youth Face Beauty Cream delivers to every district in Kerala</b>, from Kasaragod in the north to Thiruvananthapuram in the south. It costs ₹599 for a 25g jar, shipping is free, and Cash on Delivery is available.</p>'
             f'<p class="ml" lang="ml">{H["ml"]}</p>{QUICK}'
             '<h2>Choose your city</h2><div class="citygrid">' + "".join(f'<a href="/youth-face-cream-{c["slug"]}/"><b>{esc(c["name"])}</b><small>{esc(c["district"])} district</small></a>' for c in K) + '</div>'
             f'<div class="tbl"><table><thead><tr><th>City</th><th>District</th><th>Main delivery areas</th></tr></thead><tbody>{rows}</tbody></table></div>'

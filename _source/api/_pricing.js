@@ -1,7 +1,7 @@
 // Server-side prices — the single source of truth for what a customer is charged online.
 // Keep in sync with PRODUCTS / CONFIG in _source/index.html.
 const PRODUCTS = {
-  "cream-1": { name: "Youth Face Beauty Cream 25g (Pack of 1)", price: 549 },
+  "cream-1": { name: "Youth Face Beauty Cream 25g (Pack of 1)", price: 599 },
   "cream-2": { name: "Youth Face Beauty Cream Pack of 2", price: 999 },
   "cream-3": { name: "Youth Face Beauty Cream Pack of 3", price: 1444 },
   "lotion":  { name: "Youth Face Body Lotion 40 ml", price: 599 },
@@ -14,7 +14,9 @@ const COUPONS = {
   GLOW100: { type: "flat", value: 100, min: 999 },
 };
 const REWARDS = [{ at: 999, off: 50 }, { at: 1444, off: 150 }];
-const PREPAID_PCT = 5;
+const PREPAID_PCT = 0; // % off when paying online (0 = none)
+// Cash on Delivery fee: ₹30 once per order, only when the order has the Pack of 1 (keep the same as CONFIG.codFee).
+const COD_FEE = 30;
 const SHIPPING = 0;
 
 function price(items, couponCode, mode = "online") {
@@ -34,7 +36,8 @@ function price(items, couponCode, mode = "online") {
   REWARDS.forEach(r => { if (sub >= r.at) reward = r.off; });
   const after = sub - coup - reward;
   const prepaid = mode === "online" ? (after * PREPAID_PCT) / 100 : 0;
-  const total = Math.round(after - prepaid + SHIPPING);
-  return { lines, sub, coupon: coup ? code : "", discount: Math.round(coup) + reward + Math.round(prepaid), total, units: lines.reduce((a, l) => a + l.qty * (UNITS[l.id] || 1), 0) };
+  const codFee = mode === "cod" && lines.some(l => l.id === "cream-1") ? COD_FEE : 0;
+  const total = Math.round(after - prepaid + SHIPPING + codFee);
+  return { lines, sub, coupon: coup ? code : "", discount: Math.round(coup) + reward + Math.round(prepaid), codFee, total, units: lines.reduce((a, l) => a + l.qty * (UNITS[l.id] || 1), 0) };
 }
 module.exports = { price, DESK_ID };
