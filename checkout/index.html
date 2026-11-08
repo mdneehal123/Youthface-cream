@@ -531,10 +531,7 @@ const CONFIG = {
   shippingFee: 0,
   codFee: 0,                          // extra charge for Cash on Delivery (0 = no charge)
   prepaidDiscountPct: 5,              // extra % off when paying online
-  coupons: {                          // code: {type:"pct"|"flat", value, min}
-    "WELCOME10": {type:"pct", value:10, min:0, label:"10% off your first order"},
-    "GLOW100":   {type:"flat", value:100, min:999, label:"₹100 off on ₹999+"}
-  },
+  coupons: {},                        // no public coupon codes (removed 8 Nov 2026: they stacked with rewards and the online discount)
   upiId: "",                          // e.g. "youthface@okaxis" — shows "Pay by UPI" after an online order
   paymentLink: "",                    // Razorpay / Cashfree payment page URL — shows "Pay now" after an online order
   orderWebhook: "",                   // Google Apps Script URL — saves every order to your Google Sheet (see README)
@@ -977,7 +974,7 @@ function renderCheckout(){ if(cart.length) track("begin_checkout",{currency:"INR
         <h3 style="margin-bottom:10px">Order summary</h3>
         <div class="collapsible"><div class="lines" style="padding:0;overflow:visible" id="coLines"></div></div>
         <div style="margin-top:14px">
-          <div class="coupon"><input id="couponIn" placeholder="Coupon code" value="${esc(couponApplied)}" aria-label="Coupon code"><button type="button" class="btn btn-line" id="applyC">${couponApplied?"Remove":"Apply"}</button></div>
+          ${Object.keys(CONFIG.coupons).length?`<div class="coupon"><input id="couponIn" placeholder="Coupon code" value="${esc(couponApplied)}" aria-label="Coupon code"><button type="button" class="btn btn-line" id="applyC">${couponApplied?"Remove":"Apply"}</button></div>`:""}
           <div class="offers">${Object.entries(CONFIG.coupons).map(([k,v])=>`<button type="button" class="offer" data-coupon="${k}"><b>${k}</b> · ${esc(v.label)}</button>`).join("")}</div>
           <div class="msg" id="cmsg"></div>
         </div>
@@ -997,7 +994,7 @@ function renderCheckout(){ if(cart.length) track("begin_checkout",{currency:"INR
   $("#pin").addEventListener("input",()=>{ if($("#pin").value.length===6) lookupPin($("#pin").value); checkCodPin($("#pin").value) });
   checkCodPin(co.pin);
   $("#sumT").onclick=()=>$("#sumPanel").classList.toggle("collapsed");
-  $("#applyC").onclick=()=>{ if(couponApplied){couponApplied="";$("#couponIn").value="";$("#cmsg").textContent="";$("#applyC").textContent="Apply"} else applyCoupon($("#couponIn").value); read(); renderCheckoutSummary() };
+  if($("#applyC")) $("#applyC").onclick=()=>{ if(couponApplied){couponApplied="";$("#couponIn").value="";$("#cmsg").textContent="";$("#applyC").textContent="Apply"} else applyCoupon($("#couponIn").value); read(); renderCheckoutSummary() };
   document.querySelectorAll("[data-coupon]").forEach(b=>b.onclick=()=>{ $("#couponIn").value=b.dataset.coupon; applyCoupon(b.dataset.coupon); read(); renderCheckoutSummary() });
   form.addEventListener("submit",placeOrder);
   // Lead capture: only when the shopper ticks the WhatsApp consent box and the mobile number is valid; once per phone per page load.

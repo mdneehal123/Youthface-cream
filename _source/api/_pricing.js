@@ -9,10 +9,8 @@ const PRODUCTS = {
 // Order Desk product IDs and jars per pack (for parcel weight)
 const DESK_ID = { "cream-1": "yf1", "cream-2": "yf2", "cream-3": "yf3", "lotion": "yf4" };
 const UNITS = { "cream-1": 1, "cream-2": 2, "cream-3": 3, "lotion": 1 };
-const COUPONS = {
-  WELCOME10: { type: "pct", value: 10, min: 0 },
-  GLOW100: { type: "flat", value: 100, min: 999 },
-};
+// No public coupon codes (removed 8 Nov 2026): any code sent from the browser is ignored.
+const COUPONS = {};
 const REWARDS = [{ at: 999, off: 50 }, { at: 1444, off: 150 }];
 const PREPAID_PCT = 5;
 const SHIPPING = 0;
