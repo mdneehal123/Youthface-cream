@@ -1096,7 +1096,7 @@ async function payOnline(order){
   const btn=$("#placeBtn"); const label=btn.textContent; btn.disabled=true; btn.textContent="Opening secure payment…"; payMsg("");
   try{
     await loadRazorpay();
-    const r=await fetch("/api/create-order/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items:cart.map(l=>({id:l.id,qty:l.qty})),coupon:couponApplied,ref:order.id})});
+    const r=await fetch("/api/create-order/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items:cart.map(l=>({id:l.id,qty:l.qty})),coupon:couponApplied,ref:order.id,customer:custPayload()})});
     const j=await r.json(); if(!r.ok) throw new Error(j.error||"Could not start the payment.");
     order.t.total=j.total;
     return await new Promise((resolve,reject)=>{

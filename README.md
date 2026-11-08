@@ -26,7 +26,8 @@ Prices for online payment live in `api/_pricing.js` — keep them the same as `P
 - **Paid online:** after Razorpay verification the order goes to the Order Desk inbox, marked Paid.
   Vercel env: `WEB_ORDER_KEY` (same long random value as in the Order Desk project), optional `ORDERDESK_URL` (default https://www.skinday.shop).
 - **Checkout leads:** if a shopper ticks the WhatsApp consent box at checkout, `api/lead` sends their name, mobile number and cart to the Order Desk (same `WEB_ORDER_KEY`) so the owner can message them on WhatsApp later. Nothing is sent unless the box is ticked.
-- Vercel Hobby allows 12 functions; `api/` now has 7 (`cod-order`, `create-order`, `delhivery-check`, `lead`, `payment-config`, `pincode`, `verify-payment`) — files starting with `_` are helpers, not functions.
+- **Webhook backup for paid orders:** `api/razorpay-webhook` saves a paid order to the Order Desk even if the shopper closes the page right after paying (customer details are kept on the Razorpay order notes). Set `RAZORPAY_WEBHOOK_SECRET` in Vercel and add the webhook in Razorpay (URL `https://www.youthfacebeauty.com/api/razorpay-webhook`, event `payment.captured`, same secret). The Order Desk keeps one entry per order number, so it never duplicates.
+- Vercel Hobby allows 12 functions; `api/` now has 8 (`cod-order`, `create-order`, `delhivery-check`, `lead`, `payment-config`, `pincode`, `razorpay-webhook`, `verify-payment`) — files starting with `_` are helpers, not functions.
 - If Delhivery can't book a COD order, it goes to the Order Desk with a warning so it is never lost.
 
 ## 2. Order backup to Google Sheet (5 minutes)
