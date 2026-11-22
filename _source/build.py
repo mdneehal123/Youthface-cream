@@ -836,6 +836,7 @@ def main():
     robots = "# Search engines and AI assistants are welcome to read and cite this site.\n"
     robots += "".join(f"User-agent: {b}\n" for b in AI_BOTS) + "Allow: /\n" + BLOCK + "\n"
     robots += "User-agent: *\nAllow: /\n" + BLOCK + f"\nSitemap: {SITE}/sitemap.xml\n"
+    robots += "\nUser-agent: OAI-SearchBot\nDisallow: /\n"
     open(os.path.join(DIST, "robots.txt"), "w").write(robots)
 
     # llms-full.txt: plain-text copy of the guides, product facts and Kerala pages for AI assistants

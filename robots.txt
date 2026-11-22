@@ -29,3 +29,6 @@ Disallow: /order-success/
 Disallow: /wishlist/
 
 Sitemap: https://www.youthfacebeauty.com/sitemap.xml
+
+User-agent: OAI-SearchBot
+Disallow: /
