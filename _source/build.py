@@ -831,7 +831,7 @@ def main():
     llms += ["", "## Full text", "", f"- [Full text of all guides and product pages]({SITE}/llms-full.txt)"]
     open(os.path.join(DIST, "llms.txt"), "w").write("\n".join(llms) + "\n")
     BLOCK = "Disallow: /checkout/\nDisallow: /order-success/\nDisallow: /wishlist/\n"
-    AI_BOTS = ["Googlebot", "Bingbot", "Google-Extended", "GPTBot", "OAI-SearchBot", "ChatGPT-User", "PerplexityBot", "Perplexity-User",
+    AI_BOTS = ["Googlebot", "Bingbot", "Google-Extended", "GPTBot", "ChatGPT-User", "PerplexityBot", "Perplexity-User",
                "ClaudeBot", "Claude-SearchBot", "Claude-User", "Applebot", "Applebot-Extended", "DuckDuckBot", "YandexBot", "CCBot", "Amazonbot", "Meta-ExternalAgent"]
     robots = "# Search engines and AI assistants are welcome to read and cite this site.\n"
     robots += "".join(f"User-agent: {b}\n" for b in AI_BOTS) + "Allow: /\n" + BLOCK + "\n"
