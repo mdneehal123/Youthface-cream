@@ -51,7 +51,7 @@ HOW_ORDERS_WORK = (
     '<h2>Analytics</h2><p>We may use tools such as Google Analytics and the Meta Pixel to understand how visitors use our website, for example which pages are viewed and when an order is placed. These tools may use cookies. You can block cookies in your browser settings.</p>')
 GRIEVANCE_HTML = lambda: (
     '<h2>Grievance redressal</h2><p>If you have a complaint about a product, order, payment or this website, contact us and we will acknowledge it within 48 hours and work to resolve it as quickly as possible.</p>'
-    '<ul><li><b>Seller:</b> Beauty Mart, Azad Nagar, 4th Cross, Bhatkal, Karnataka, India</li>'
+    '<ul><li><b>Seller:</b> Beauty Mart, Bhatkal, Karnataka, India</li>'
     + (f'<li><b>Grievance officer:</b> {html.escape(APPCFG["grievanceOfficer"])}</li>' if APPCFG["grievanceOfficer"] else "")
     + '<li><b>Phone / WhatsApp:</b> +91 99808 81230</li><li><b>Email:</b> mdneehal@gmail.com</li></ul>')
 def _subs(h, pairs):
@@ -274,7 +274,7 @@ def head(title, desc, path, *, canonical=None, robots="index, follow, max-snippe
 
 ORG = {"@context": "https://schema.org", "@type": "Organization", "@id": SITE + "/#organization", "name": "Youth Face",
        "legalName": "Beauty Mart", "url": SITE + "/", "logo": SITE + "/logo.png",
-       "address": {"@type": "PostalAddress", "streetAddress": "Azad Nagar, 4th Cross", "addressLocality": "Bhatkal", "addressRegion": "Karnataka", "addressCountry": "IN"},
+       "address": {"@type": "PostalAddress", "addressLocality": "Bhatkal", "addressRegion": "Karnataka", "addressCountry": "IN"},
        "email": "mdneehal@gmail.com", "telephone": "+91-9980881230", "areaServed": {"@type": "Country", "name": "India"},
        "brand": {"@type": "Brand", "name": "Youth Face"},
        "contactPoint": {"@type": "ContactPoint", "telephone": "+91-9980881230", "contactType": "customer service", "areaServed": "IN",
@@ -325,7 +325,7 @@ FOOTER_TPL = '''<footer><div class="wrap">
   <div><p class="fh">Policies</p><a href="/shipping-delivery/">Shipping &amp; delivery</a><a href="/refund-returns-policy/">Refund &amp; returns</a><a href="/privacy-policy/">Privacy policy</a><a href="/terms-conditions/">Terms &amp; conditions</a><a href="/about-us/">About us</a><a href="/youth-face-cream-kerala/">Delivery in Kerala</a><a href="/sitemap/">Sitemap</a></div>
   <div class="krow"><b>Delivery in Kerala:</b> <a href="/youth-face-cream-kochi/">Kochi</a> · <a href="/youth-face-cream-thiruvananthapuram/">Thiruvananthapuram</a> · <a href="/youth-face-cream-kozhikode/">Kozhikode</a> · <a href="/youth-face-cream-thrissur/">Thrissur</a> · <a href="/youth-face-cream-malappuram/">Malappuram</a> · <a href="/youth-face-cream-kannur/">Kannur</a> · <a href="/youth-face-cream-kasaragod/">Kasaragod</a> · <a href="/youth-face-cream-palakkad/">Palakkad</a> · <a href="/youth-face-cream-kottayam/">Kottayam</a> · <a href="/youth-face-cream-alappuzha/">Alappuzha</a> · <a href="/youth-face-cream-kollam/">Kollam</a></div>
   <div class="copy" style="margin-bottom:6px">Also from the team: <a href="https://mircglow.com/" rel="noopener">Mirc Glow avocado night creams</a></div>
-  <div class="copy">© 2026 Youth Face · Sold by Beauty Mart, Azad Nagar, 4th Cross, Bhatkal, Karnataka, India · Customer care &amp; grievances: +91 99808 81230 · mdneehal@gmail.com{GRIEVANCE}</div>
+  <div class="copy">© 2026 Youth Face · Sold by Beauty Mart, Bhatkal, Karnataka, India · Customer care &amp; grievances: +91 99808 81230 · mdneehal@gmail.com{GRIEVANCE}</div>
 </div></footer>
 <a class="wa" href="https://wa.me/919980881230?text=Hi%20Youth%20Face%2C%20I%20need%20help." target="_blank" rel="noopener">WhatsApp us</a>
 <script>try{var c=JSON.parse(localStorage.getItem("yf_cart"))||[];document.getElementById("cartCount").textContent=c.reduce(function(a,l){return a+l.qty},0)}catch(e){}</script>'''
@@ -462,7 +462,7 @@ def main():
         if units > 1:
             rows.append(("Price per jar", inr(pr / units)))
         rows += [("Payment", "Cash on Delivery, UPI, cards, net banking"), ("Shipping", "Free shipping across India"),
-                 ("Sold and shipped by", "Beauty Mart, Azad Nagar, 4th Cross, Bhatkal, Karnataka, India")]
+                 ("Sold and shipped by", "Beauty Mart, Bhatkal, Karnataka, India")]
         if APPCFG.get("manufacturer"):
             rows.append(("Manufactured by", APPCFG["manufacturer"]))
         if APPCFG.get("countryOfOrigin"):
@@ -802,7 +802,7 @@ def main():
     llms = [
         "# Youth Face", "",
         "> " + C["summary"], "",
-        "Youth Face is an Indian skincare brand operated by Beauty Mart, Azad Nagar, 4th Cross, Bhatkal, Karnataka, India. Official website: https://youthfacebeauty.com. WhatsApp and phone: +91 99808 81230. Email: mdneehal@gmail.com.", "",
+        "Youth Face is an Indian skincare brand operated by Beauty Mart, Bhatkal, Karnataka, India. Official website: https://youthfacebeauty.com. WhatsApp and phone: +91 99808 81230. Email: mdneehal@gmail.com.", "",
         "## Where to buy", "",
         f"Buy original Youth Face Beauty Cream online at {SITE}/ or on WhatsApp +91 99808 81230, with Cash on Delivery and free shipping across India. How to order: {SITE}/buy-beauty-cream-online-india/", "",
         "## Products and prices (INR, official website)", "",
